@@ -13,15 +13,13 @@
         android:background="@drawable/grad"
         android:paddingBottom="20dp">
 
-        <RelativeLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/imgUser"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/circle_border">
-
-            <ImageView
+            android:layout_marginTop="20dp">
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/uploadimage_user"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
@@ -29,14 +27,15 @@
                 android:layout_marginTop="9dp"
                 android:layout_marginEnd="9dp"
                 android:layout_marginBottom="9dp"
-                android:adjustViewBounds="true"
-                android:background="@drawable/circle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 android:padding="3dp"
-                android:scaleType="centerCrop"
-                app:tint="@color/gradStart"
-                android:src="@drawable/ic_baseline_person_24" />
+                android:src="@drawable/ic_baseline_person_24"
+                app:civ_fill_color="@color/gradEnd"
+                app:civ_border_color="@color/gradStart"/>
 
-        </RelativeLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
             android:id="@+id/welcome"

@@ -25,6 +25,7 @@ import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_update_profile.*
 import java.io.ByteArrayOutputStream
 import java.io.IOException
+import java.net.URI
 import java.util.*
 
 class update_profile : AppCompatActivity() {
@@ -36,7 +37,6 @@ class update_profile : AppCompatActivity() {
     private lateinit var updateFoto : ImageView
     private lateinit var buttonUpdate : Button
     private lateinit var binding: ActivityUpdateProfileBinding
-    lateinit var auth : FirebaseAuth
     var imageURL = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -148,7 +148,8 @@ class update_profile : AppCompatActivity() {
 
         updatefoto.isDrawingCacheEnabled = true
         updatefoto.buildDrawingCache()
-        val bitmap = (updatefoto.drawable as BitmapDrawable).bitmap
+//        val bitmap = (updatefoto.drawable as BitmapDrawable).bitmap
+        val bitmap = Bitmap.createBitmap(updateFoto.drawingCache)
         val baos = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
         val data = baos.toByteArray()
@@ -170,22 +171,25 @@ class update_profile : AppCompatActivity() {
             if(taskSnapshot.metadata !=null){
                 if(taskSnapshot.metadata!!.reference !=null){
                     taskSnapshot.metadata!!.reference!!.downloadUrl.addOnCompleteListener {
-//
-//                        FirebaseStorage.getInstance().getReferenceFromUrl(imageURL).downloadUrl.addOnSuccessListener {
-//                            FirebaseStorage.getInstance().getReferenceFromUrl(imageURL).delete()
-//                        }
-//                            .addOnFailureListener{
-//                                Toast.makeText(this, "File Not Exist, adding . . .", Toast.LENGTH_SHORT).show()
-//                            }
                         var editfoto = it.getResult().toString()
+
+                        FirebaseStorage.getInstance().getReferenceFromUrl(imageURL).downloadUrl
+                            .addOnSuccessListener {
+                            FirebaseStorage.getInstance().getReferenceFromUrl(imageURL).delete()
+                        }
+                            .addOnFailureListener{
+                                Toast.makeText(this, "File Not Exist, adding . . .", Toast.LENGTH_SHORT).show()
+                            }
+
                         val dbupdate = FirebaseFirestore.getInstance()
                         val bahanProfile = hashMapOf<String, Any>(
                             "email" to edEmail,
                             "name" to edNama,
                             "phone" to edPhone,
                             "gender" to edGender,
-//                            "foto" to editfoto,
+                            "foto" to editfoto,
                         )
+                        val auth = FirebaseAuth.getInstance()
                         val uid = auth.currentUser?.uid
                         dbupdate.collection("users").document(uid!!).update(bahanProfile)
                             .addOnSuccessListener { documentReference ->

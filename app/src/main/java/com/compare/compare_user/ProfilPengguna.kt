@@ -27,7 +27,7 @@ import kotlinx.android.synthetic.main.fragment_profil_pengguna.*
 import java.io.ByteArrayOutputStream
 
 class ProfilPengguna : Fragment() {
-    var imageURL = ""
+    lateinit var imageURL : String
     lateinit var binding : FragmentProfilPenggunaBinding
     private val db = Firebase.firestore
     private lateinit var firebaseAuth: FirebaseAuth
