@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "582070134617",
+    "project_id": "cobaapp-8a545",
+    "storage_bucket": "cobaapp-8a545.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:582070134617:android:30b080e8249ae9124c4e48",
+        "android_client_info": {
+          "package_name": "com.compare.compare_user"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "582070134617-fvb97tp9dvfque934no3c9pmhfane9ve.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBOgJIuapU5U3avYJqgWTb76qgRckyrHh0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "582070134617-fvb97tp9dvfque934no3c9pmhfane9ve.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:582070134617:android:439ad18341679df84c4e48",
+        "android_client_info": {
+          "package_name": "com.compare.compareapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "582070134617-fvb97tp9dvfque934no3c9pmhfane9ve.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBOgJIuapU5U3avYJqgWTb76qgRckyrHh0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "582070134617-fvb97tp9dvfque934no3c9pmhfane9ve.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
