@@ -62,19 +62,15 @@ class ProfilPengguna : Fragment() {
                     val phone = document.getString("phone")
                     val gender = document.getString("gender")
                     val email = document.getString("email")
-                    val kosong = ""
                     imageURL = document.getString("foto").toString().trim()
 
                     ShowName.text = "$name"
                     ShowPhone.text = "$phone"
                     ShowGender.text = "$gender"
                     ShowEmail.text = "$email"
-
-                    if (document.getString("foto").toString().trim() != kosong){
-                        Glide.with(this)
+                    Glide.with(this)
                             .load(imageURL)
                             .into(foto)
-                    }
 
                     statuss.text = "Succes dapat data user $userid"
                 }

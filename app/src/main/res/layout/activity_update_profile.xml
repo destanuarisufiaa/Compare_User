@@ -18,21 +18,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
-            >
+            android:layout_marginTop="20dp">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/updatefoto"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
-                android:layout_marginStart="9dp"
-                android:layout_marginTop="9dp"
-                android:layout_marginEnd="9dp"
-                android:layout_marginBottom="9dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:padding="3dp"
                 android:src="@drawable/ic_baseline_person_24" />
 
 
@@ -138,20 +132,24 @@
                     android:textColor="@color/headings"
                     android:textSize="13sp" />
 
-                <EditText
-                    android:id="@+id/update_gender"
-                    android:layout_width="match_parent"
+                <RadioGroup
+                    android:id="@+id/rg_gender_update"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-light"
-                    android:text="gender"
-                    android:textColor="#000000"
-                    android:textSize="18sp" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="15dp"
-                    android:background="@color/grey" />
+                    android:layout_marginTop="2dp"
+                    android:orientation="horizontal">
+                    <RadioButton
+                        android:id="@+id/male"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Pria"/>
+                    <RadioButton
+                        android:id="@+id/female"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Wanita"
+                        android:layout_marginLeft="10dp"/>
+                </RadioGroup>
 
             </LinearLayout>
 

@@ -6,16 +6,12 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.bumptech.glide.Glide
 import com.compare.compare_user.databinding.ActivityUpdateProfileBinding
@@ -25,18 +21,18 @@ import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_update_profile.*
 import java.io.ByteArrayOutputStream
 import java.io.IOException
-import java.net.URI
 import java.util.*
 
 class update_profile : AppCompatActivity() {
 
     private lateinit var updateNama : EditText
     private lateinit var updateEmail : EditText
-    private lateinit var updateGender : EditText
     private lateinit var updateNomor : EditText
     private lateinit var updateFoto : ImageView
+    private lateinit var gender1 : RadioGroup
     private lateinit var buttonUpdate : Button
     private lateinit var binding: ActivityUpdateProfileBinding
+    private lateinit var hasilGender: String
     var imageURL = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,7 +60,7 @@ class update_profile : AppCompatActivity() {
         //inisialisasi layout
         updateNama = findViewById(R.id.update_nama)
         updateEmail = findViewById(R.id.update_email)
-        updateGender = findViewById(R.id.update_gender)
+        gender1 = findViewById(R.id.rg_gender_update)
         updateNomor = findViewById(R.id.update_nomor)
         updateFoto= findViewById(R.id.updatefoto)
         buttonUpdate = findViewById(R.id.btn_update)
@@ -79,10 +75,15 @@ class update_profile : AppCompatActivity() {
 
             updateNama.setText("$namaUpdate")
             updateEmail.setText("$emailUpdate")
-            updateGender.setText("$genderUpdate")
             updateNomor.setText("$phoneUpdate")
+            if (genderUpdate.equals("Pria")){
+                gender1.check(R.id.male)
+            }else if (genderUpdate.equals("Wanita")){
+                gender1.check(R.id.female)
+            }
+
             imageURL = bundle.getString("foto")!!
-            if (bundle.getString("foto") != ""){
+            if (imageURL != ""){
                 Glide.with(this).load(bundle?.getString("foto")).into(updateFoto)
             }
 
@@ -141,10 +142,14 @@ class update_profile : AppCompatActivity() {
     }
 
     private fun updateData() {
+        val cekGenderRadioButtonId = gender1.checkedRadioButtonId
+        val listGender = findViewById<RadioButton>(cekGenderRadioButtonId)
+        hasilGender = "${listGender.text}"
+
         val edNama = updateNama.text.toString().trim()
         val edEmail = updateEmail.text.toString().trim()
         val edPhone = updateNomor.text.toString().trim()
-        val edGender = updateGender.text.toString().trim()
+        val edGender = hasilGender.trim()
 
         updatefoto.isDrawingCacheEnabled = true
         updatefoto.buildDrawingCache()

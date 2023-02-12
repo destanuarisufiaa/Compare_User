@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/grad"
     tools:context=".Home">
 
     <RelativeLayout
@@ -11,7 +12,7 @@
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:background="#E7E7E7"
+            android:background="@drawable/grad"
             android:id="@+id/panel"
             android:orientation="horizontal"
             android:weightSum="16"
@@ -30,6 +31,7 @@
                 android:layout_gravity="center_vertical"
                 android:textSize="30sp"
                 android:textStyle="bold"
+                android:textColor="@color/black"
                 android:gravity="center"
                 android:layout_width="0dp"
                 android:layout_weight="11"

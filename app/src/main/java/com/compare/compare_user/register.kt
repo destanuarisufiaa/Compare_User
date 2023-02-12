@@ -38,8 +38,6 @@ class register : AppCompatActivity() {
 
         val gender = findViewById<TextView>(R.id.txt_gender_register)
         val gender1 = findViewById<RadioGroup>(R.id.rg_gender1_register)
-//        val imageURL = getURLForResource(R.drawable.update_profile)
-        val Fotobawaan = findViewById<ImageView>(R.id.fotobawaan)
 
         auth = FirebaseAuth.getInstance()
         firestore = FirebaseFirestore.getInstance()
@@ -52,7 +50,7 @@ class register : AppCompatActivity() {
 
             val bitmap = (fotobawaan.getDrawable() as BitmapDrawable).getBitmap()
             val baos = ByteArrayOutputStream()
-            bitmap.compress(Bitmap.CompressFormat.PNG, 90, baos)
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos)
             val data = baos.toByteArray()
 
             val email = binding.edtEmailRegister.text.toString()
@@ -139,6 +137,7 @@ class register : AppCompatActivity() {
                             Log.w(ContentValues.TAG, "Error adding document $exception")
                         }
 
+                    auth.signOut()
                     val intent = Intent (this, logindanregister::class.java)
                     startActivity(intent)
                 }else{
