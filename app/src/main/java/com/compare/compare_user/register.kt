@@ -126,6 +126,12 @@ class register : AppCompatActivity() {
                         "phone" to phone,
                         "gender" to hasilGender,
                         "foto" to foto,
+                        "namaMenu" to "",
+                        "Harga" to "",
+                        "gambarMenu" to "",
+                        "totalPrice" to "",
+                        "quantity" to "",
+                        "key" to "",
                     )
                     val uid = auth.currentUser?.uid
                     firestore.collection("users").document(uid!!)

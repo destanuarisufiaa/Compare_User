@@ -66,9 +66,9 @@ class MyAdapter (private val context: Context, private var MenuList: MutableList
         IDgaes = MenuList[position].docID
 
         holder.cart.setOnClickListener(object : IRecyclerClickListener, View.OnClickListener {
-//            override fun onItemClickListener(view: View?, position: Int) {
-//                addToCart(MenuList[position])
-//            }
+            override fun onItemClickListener(view: View?, position: Int) {
+                addToCart(MenuList[position])
+            }
 
             override fun onClick(p0: View?) {
                 addToCart(MenuList[holder.adapterPosition])
@@ -88,7 +88,7 @@ class MyAdapter (private val context: Context, private var MenuList: MutableList
 
     private fun addToCart(menu: Menu) {
         val uid = FirebaseAuth.getInstance().currentUser?.uid.toString().trim()
-        val docID = FirebaseFirestore.getInstance().collection("Cart").document("$IDgaes")
+        val docID = FirebaseFirestore.getInstance().collection("users").document(uid)
         val DBcart = FirebaseFirestore.getInstance().collection("Cart").document()
 
         docID.get().addOnSuccessListener {

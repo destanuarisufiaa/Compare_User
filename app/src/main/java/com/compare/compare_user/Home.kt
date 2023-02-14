@@ -65,7 +65,7 @@ class Home : Fragment(), ICartLoadListener {
 
     private fun countCartFromFirebase() {
         val cartModels:MutableList<CartModel> = ArrayList()
-        var FStore = FirebaseFirestore.getInstance().collection("Cart")
+        var FStore = FirebaseFirestore.getInstance().collection("users")
         FStore.get()
             .addOnSuccessListener { documents ->
                 for (document in documents){
