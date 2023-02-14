@@ -128,7 +128,7 @@ class register : AppCompatActivity() {
                         "foto" to foto,
                     )
                     val uid = auth.currentUser?.uid
-                    firestore.collection("users").document(uid!!)
+                    firestore.collection("users").document(uid!!).collection("Profil").document(uid!!)
                         .set(user)
                         .addOnSuccessListener { documentReference ->
                             Toast.makeText(this, "Success", Toast.LENGTH_LONG).show()

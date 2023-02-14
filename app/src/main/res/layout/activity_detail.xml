@@ -53,6 +53,18 @@
         android:textColor="@color/black"
         android:textSize="18dp"/>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:padding="20dp"
+        android:text="id"
+        android:layout_gravity="center"
+        android:id="@+id/IDmenu"
+        android:visibility="gone"
+        android:textColor="@color/black"
+        android:textSize="18dp"/>
+
     <LinearLayout
         android:id="@+id/div_footer"
         android:layout_width="match_parent"
@@ -69,11 +81,14 @@
             android:layout_height="match_parent"
             android:background="@drawable/bg_btn_beli">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <Button
+                android:id="@+id/buttonCart"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="   Beli Sekarang"
+                android:textAllCaps="true"
+                android:text="Tambahkan ke keranjang"
+                android:background="@color/teal_200"
                 android:textColor="@color/white"
                 android:textSize="15dp"
                 android:drawableLeft="@drawable/ic_baseline_add_shopping_cart_24"

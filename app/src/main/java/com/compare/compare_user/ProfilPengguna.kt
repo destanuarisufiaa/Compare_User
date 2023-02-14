@@ -54,7 +54,7 @@ class ProfilPengguna : Fragment() {
         val foto = view.findViewById<ImageView>(R.id.uploadimage_user)
 
 
-        val docRef = db.collection("users").document(userid!!)
+        val docRef = db.collection("users").document(userid!!).collection("Profil").document(userid!!)
         docRef.get()
             .addOnSuccessListener { document ->
                 if (document != null) {
