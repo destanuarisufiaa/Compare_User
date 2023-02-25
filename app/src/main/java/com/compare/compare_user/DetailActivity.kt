@@ -36,7 +36,7 @@ class DetailActivity : AppCompatActivity() {
 
         val bundle = intent.extras
         if (bundle != null) {
-            dokumenID = bundle.getString("docID").toString().trim()
+            dokumenID = bundle.getString("namaMenu").toString().trim()
             binding.detailTittle.text = bundle.getString("namaMenu")
             binding.detailHarga.text = bundle.getString("Harga")
             binding.detailDesc.text = bundle.getString("Desc")
@@ -47,7 +47,6 @@ class DetailActivity : AppCompatActivity() {
         buttonCart.setOnClickListener {
             addToCart()
         }
-
     }
 
     private fun addToCart() {

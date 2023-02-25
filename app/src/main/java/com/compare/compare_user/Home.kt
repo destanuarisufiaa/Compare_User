@@ -1,5 +1,6 @@
 package com.compare.compare_user
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,7 +13,6 @@ import com.compare.compare_user.eventbus.UpdateCartEvent
 import com.compare.compare_user.listener.ICartLoadListener
 import com.compare.compare_user.model.CartModel
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseError
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.greenrobot.eventbus.EventBus
@@ -58,6 +58,11 @@ class Home : Fragment(), ICartLoadListener {
         init()
         fetchData()
         countCartFromFirebase()
+
+        cartButton.setOnClickListener {
+            val intent = Intent(context, Cart::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun init() {
@@ -100,7 +105,7 @@ class Home : Fragment(), ICartLoadListener {
     }
 
     override fun onLoadCartfailed(message: String?) {
-        Toast.makeText(activity, "$activity.exception?.message", Toast.LENGTH_SHORT).show()
+        Toast.makeText(activity, "$activity.exception?.$message", Toast.LENGTH_SHORT).show()
 //        Toast.makeText(activity, "SUKSESSSSS", Toast.LENGTH_SHORT).show()
     }
     override fun onLoadCartSuccess(cartModelList: MutableList<CartModel>) {

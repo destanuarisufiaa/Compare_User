@@ -1,8 +1,8 @@
-package com.compare.compare_user.model
+package com.compare.compare_user
 
 import com.google.firebase.firestore.DocumentId
 
-class CartModel {
+class MenuCart {
     var key:String?=null
     var name:String?=null
     var price:String?=null
