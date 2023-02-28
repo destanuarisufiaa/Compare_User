@@ -28,6 +28,13 @@ class Cart : AppCompatActivity() {
             layoutManager = LinearLayoutManager(context)
         }
         fetchData()
+        btn_bayar.setOnClickListener {
+            val intent = Intent (this, form_pemesanan::class.java)
+            intent.putExtra("totalBayar", tv_total.text)
+
+            startActivity(intent)
+
+        }
     }
 
     private fun fetchData() {
@@ -41,7 +48,9 @@ class Cart : AppCompatActivity() {
                     binding.recyclerViewCart.adapter = this.let { CartAdapter (it, cartMenu) }
                 }
             }
-            .addOnFailureListener { }
+            .addOnFailureListener {
+
+            }
         Storage.addSnapshotListener { snapshot, e ->
             if (e != null) {
                 Log.w(TAG, "Listen failed.", e)

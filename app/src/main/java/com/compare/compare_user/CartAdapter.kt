@@ -14,14 +14,14 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_cart.*
 import org.greenrobot.eventbus.EventBus
-
-private lateinit var IDdoc:String
+import org.w3c.dom.Text
 
 class CartAdapter(private val context: Context, private var CartList: MutableList<MenuCart>) : RecyclerView.Adapter<CartAdapter.MyViewHolder>() {
 
     class MyViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
         val namaMenu : TextView = itemView.findViewById(R.id.tv_nama)
         val harga : TextView = itemView.findViewById(R.id.tv_harga)
+        val priceasli : TextView = itemView.findViewById(R.id.tv_hargaAsli)
         val foto : ImageView = itemView.findViewById(R.id.img_produk)
         val quantity : TextView = itemView.findViewById(R.id.tv_jumlah)
         val cartplus : ImageView = itemView.findViewById(R.id.btn_tambah)
@@ -38,6 +38,7 @@ class CartAdapter(private val context: Context, private var CartList: MutableLis
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         Glide.with(context).load(CartList[position].image).into(holder.foto)
         holder.namaMenu.text = CartList[position].name
+        holder.priceasli.text = CartList[position].price
         holder.harga.text = (CartList[position].price.toString().toInt() * CartList[position].quantity.toString().toInt()).toString()
         holder.quantity.text = CartList[position].quantity.toString()
 //        holder.total.text = CartList[position].totalPrice.toString()

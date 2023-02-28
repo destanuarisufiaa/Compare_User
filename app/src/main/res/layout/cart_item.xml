@@ -20,7 +20,6 @@
             android:orientation="horizontal">
 
 
-
             <ImageView
                 android:id="@+id/img_produk"
                 android:layout_width="100dp"
@@ -30,15 +29,22 @@
 
             <TextView
                 android:id="@+id/tv_nama"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="40dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="5dp"
-                android:ellipsize="marquee"
-                android:lines="2"
-                android:maxLines="3"
                 android:text="Nama Produk"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/tv_hargaAsli"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginRight="5dp"
+                android:text="Harga Produk"
                 android:textColor="@color/black" />
 
         </LinearLayout>
