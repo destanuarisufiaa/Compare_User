@@ -26,6 +26,7 @@ class CartAdapter(private val context: Context, private var CartList: MutableLis
         val quantity : TextView = itemView.findViewById(R.id.tv_jumlah)
         val cartplus : ImageView = itemView.findViewById(R.id.btn_tambah)
         val cartmin: ImageView = itemView.findViewById(R.id.btn_kurang)
+        val deleteholder : ImageView = itemView.findViewById(R.id.btn_delete2)
 //        val total : TextView = itemView.findViewById(R.id.tv_harga)
     }
 
@@ -41,7 +42,6 @@ class CartAdapter(private val context: Context, private var CartList: MutableLis
         holder.priceasli.text = CartList[position].price
         holder.harga.text = (CartList[position].price.toString().toInt() * CartList[position].quantity.toString().toInt()).toString()
         holder.quantity.text = CartList[position].quantity.toString()
-//        holder.total.text = CartList[position].totalPrice.toString()
 
         val IDgaes = CartList[position].name.toString().trim()
         val uid = FirebaseAuth.getInstance().currentUser?.uid.toString().trim()
@@ -76,30 +76,50 @@ class CartAdapter(private val context: Context, private var CartList: MutableLis
             docID.get().addOnSuccessListener {
                 val cartModel = it.toObject(MenuCart::class.java)
                 cartModel!!.quantity = cartModel!!.quantity -1
-                val updateData: MutableMap<String, Any> = HashMap()
-                updateData["quantity"] = cartModel!!.quantity
-                val totalharga = cartModel!!.quantity * cartModel.price!!.toFloat()
-                updateData["totalPrice"] = totalharga
-
-                docID.update(updateData)
-                    .addOnSuccessListener {
-                        EventBus.getDefault().postSticky(UpdateCartEvent())
-                        holder.quantity.text = cartModel!!.quantity.toString()
-                        holder.harga.text = totalharga.toInt().toString()
-                        Toast.makeText(context, "Berhasil Mengurangi", Toast.LENGTH_SHORT).show()
-                    }.addOnFailureListener {
-                        Toast.makeText(context, "Gagal Mengurangi", Toast.LENGTH_SHORT).show()
-                    }
-
+                if (cartModel!!.quantity > 0){
+                    val updateData: MutableMap<String, Any> = HashMap()
+                    updateData["quantity"] = cartModel!!.quantity
+                    val totalharga = cartModel!!.quantity * cartModel.price!!.toFloat()
+                    updateData["totalPrice"] = totalharga
+                    docID.update(updateData)
+                        .addOnSuccessListener {
+                            EventBus.getDefault().postSticky(UpdateCartEvent())
+                            holder.quantity.text = cartModel!!.quantity.toString()
+                            holder.harga.text = totalharga.toInt().toString()
+                            Toast.makeText(context, "Berhasil Mengurangi", Toast.LENGTH_SHORT).show()
+                        }.addOnFailureListener {
+                            Toast.makeText(context, "Gagal Mengurangi", Toast.LENGTH_SHORT).show()
+                        }
+                }else{
+                    docID.delete()
+                        .addOnSuccessListener {
+                            CartList.removeAt(position)
+                            notifyDataSetChanged()
+                        }
+                    notifyDataSetChanged()
+                }
 
             }.addOnFailureListener {
                 Toast.makeText(context, "Gagal Membaca Data Cart", Toast.LENGTH_SHORT).show()
             }
+        }
+        // apabila tombol delete per holder item di klik
+        holder.deleteholder.setOnClickListener {
+            //docID merupakan variabel yang dideklrasikan diatas (dibaris 49)
+            //mengambil dokumen dari setiap menu berdasarkan nama menu nya
+            docID.delete()
+                .addOnSuccessListener {
+                    //menghapus pada tampilan activity sesuai posisi menu yang dihapus
+                    CartList.removeAt(position)
+                    //fungsi notifyDataSetChanged untuk mengupdate tampilan bahwa telah dihapus
+                    notifyDataSetChanged()
+                }
         }
 
         }
 
     override fun getItemCount(): Int {
         return CartList.size
+        notifyDataSetChanged()
     }
     }

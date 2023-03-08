@@ -1,12 +1,14 @@
 package com.compare.compare_user
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.app.ActivityCompat.recreate
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.compare.compare_user.databinding.FragmentHomeBinding
 import com.compare.compare_user.eventbus.UpdateCartEvent
@@ -28,6 +30,7 @@ class Home : Fragment(), ICartLoadListener {
     override fun onStart() {
         super.onStart()
         EventBus.getDefault().register(this)
+        countCartFromFirebase()
     }
 
     override fun onStop() {
@@ -36,6 +39,7 @@ class Home : Fragment(), ICartLoadListener {
             EventBus.getDefault().removeStickyEvent(UpdateCartEvent::class.java)
         EventBus.getDefault().unregister(this)
     }
+
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public fun onUpdateCartEvent(event: UpdateCartEvent){
@@ -92,12 +96,12 @@ class Home : Fragment(), ICartLoadListener {
         FirebaseFirestore.getInstance().collection("Menu")
             .get()
             .addOnSuccessListener { documents ->
-                for (document in documents){
+                for (document in documents) {
                     idgaes = document.id
                     val menu = documents.toObjects(Menu::class.java)
-                    binding.recyclerView.adapter = context?.let { MyAdapter (it, menu, cartLoadListener) }
+                    binding.recyclerView.adapter =
+                        context?.let { MyAdapter(it, menu, cartLoadListener) }
                 }
-
             }
             .addOnFailureListener {
 
