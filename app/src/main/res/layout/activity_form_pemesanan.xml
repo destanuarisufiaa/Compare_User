@@ -191,7 +191,7 @@
                         android:background="@drawable/bg_btn_beli"
                         android:gravity="center"
                         android:padding="10dp"
-                        android:text="NEXT"
+                        android:text="BAYAR"
                         android:textColor="@color/white"
                         android:textSize="15dp"
                         android:textStyle="bold" />
