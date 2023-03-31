@@ -89,6 +89,27 @@
                     android:textColor="@color/headings"
                     android:textSize="13sp" />
 
+                <RadioGroup
+                    android:id="@+id/rg_gerbong"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:orientation="horizontal">
+                    <RadioButton
+                        android:id="@+id/eks"
+                        android:textColor="@color/headings"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="EKS"/>
+                    <RadioButton
+                        android:id="@+id/female"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/headings"
+                        android:text="EKO"
+                        android:layout_marginLeft="10dp"/>
+                </RadioGroup>
+
                 <EditText
                     android:id="@+id/txt_nomorGerbong"
                     android:layout_width="match_parent"
@@ -184,7 +205,7 @@
 
                 </LinearLayout>
                     <TextView
-                        android:id="@+id/btn_next"
+                        android:id="@+id/btn_bayar"
                         android:layout_width="120dp"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"

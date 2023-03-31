@@ -21,6 +21,7 @@ import kotlinx.android.synthetic.main.recycler_item.*
 class Cart : AppCompatActivity() {
 
     private lateinit var binding: ActivityCartBinding
+    private lateinit var sumHarga:String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,10 +37,10 @@ class Cart : AppCompatActivity() {
         val uid = FirebaseAuth.getInstance().currentUser?.uid.toString().trim()
         val bahanDelete = FirebaseFirestore.getInstance().collection("users").document(uid!!).collection("Cart")
 
-        btn_bayar.setOnClickListener {
+        btn_next.setOnClickListener {
             val intent = Intent (this, form_pemesanan::class.java)
             intent.putExtra("totalBayar", tv_total.text)
-
+            intent.putExtra("sumHarga", sumHarga)
             startActivity(intent)
 
         }
@@ -62,6 +63,9 @@ class Cart : AppCompatActivity() {
                     overridePendingTransition(0, 0);
                     startActivity(getIntent());
                     overridePendingTransition(0, 0);
+                    //jika dikeranjang telah terhapus semua, maka akan berpindah ke halaman HOME
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
                 }.addOnFailureListener {
                     Toast.makeText(this, "Gagal Menghapus Semua Cart", Toast.LENGTH_SHORT).show()
                 }
@@ -100,6 +104,7 @@ class Cart : AppCompatActivity() {
                     //maka menghitung total harga
                     totalHarga += document.get("totalPrice").toString().toFloat()
                     tv_total.text = "Rp. " + totalHarga.toInt().toString()
+                    sumHarga = totalHarga.toInt().toString()
                 }
             }
 

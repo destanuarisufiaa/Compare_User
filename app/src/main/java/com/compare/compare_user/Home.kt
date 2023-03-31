@@ -84,7 +84,7 @@ class Home : Fragment(), ICartLoadListener {
                     cartModel!!.key = document.id
                     cartModels.add(cartModel)
                 }
-                cartLoadListener.onLoadCartSuccess(cartModels)
+//                cartLoadListener.onLoadCartSuccess(cartModels)
             }.addOnCanceledListener {
                 cartLoadListener.onLoadCartfailed(message = "")
             }

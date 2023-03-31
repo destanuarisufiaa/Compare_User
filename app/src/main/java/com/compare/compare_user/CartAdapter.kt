@@ -1,11 +1,15 @@
 package com.compare.compare_user
 
+import android.content.ContentValues
 import android.content.Context
+import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.compare.compare_user.eventbus.UpdateCartEvent
@@ -43,10 +47,14 @@ class CartAdapter(private val context: Context, private var CartList: MutableLis
         holder.harga.text = (CartList[position].price.toString().toInt() * CartList[position].quantity.toString().toInt()).toString()
         holder.quantity.text = CartList[position].quantity.toString()
 
+
         val IDgaes = CartList[position].name.toString().trim()
         val uid = FirebaseAuth.getInstance().currentUser?.uid.toString().trim()
         val docID = FirebaseFirestore.getInstance().collection("users").document(uid!!).collection("Cart").document(
             "$IDgaes")
+
+        cekCart()
+
         holder.cartplus.setOnClickListener {
             docID.get().addOnSuccessListener {
                 val cartModel = it.toObject(MenuCart::class.java)
@@ -87,6 +95,7 @@ class CartAdapter(private val context: Context, private var CartList: MutableLis
                             holder.quantity.text = cartModel!!.quantity.toString()
                             holder.harga.text = totalharga.toInt().toString()
                             Toast.makeText(context, "Berhasil Mengurangi", Toast.LENGTH_SHORT).show()
+
                         }.addOnFailureListener {
                             Toast.makeText(context, "Gagal Mengurangi", Toast.LENGTH_SHORT).show()
                         }
@@ -95,14 +104,17 @@ class CartAdapter(private val context: Context, private var CartList: MutableLis
                         .addOnSuccessListener {
                             CartList.removeAt(position)
                             notifyDataSetChanged()
+
                         }
                     notifyDataSetChanged()
+
                 }
 
             }.addOnFailureListener {
                 Toast.makeText(context, "Gagal Membaca Data Cart", Toast.LENGTH_SHORT).show()
             }
         }
+
         // apabila tombol delete per holder item di klik
         holder.deleteholder.setOnClickListener {
             //docID merupakan variabel yang dideklrasikan diatas (dibaris 49)
@@ -113,10 +125,37 @@ class CartAdapter(private val context: Context, private var CartList: MutableLis
                     CartList.removeAt(position)
                     //fungsi notifyDataSetChanged untuk mengupdate tampilan bahwa telah dihapus
                     notifyDataSetChanged()
+
+                    if (CartList.isEmpty()) {
+                        Toast.makeText(context, "Keranjang Kosong", Toast.LENGTH_SHORT).show()
+                        val intent = Intent(context,MainActivity::class.java)
+                        context.startActivity(intent)
+                    }
                 }
         }
+        }
+
+    private fun cekCart() {
+        val uid = FirebaseAuth.getInstance().currentUser?.uid.toString().trim()
+        val Storage = FirebaseFirestore.getInstance().collection("users").document(uid!!).collection("Cart")
+
+        Storage.addSnapshotListener { snapshot, e ->
+            if (e != null) {
+                Log.w(ContentValues.TAG, "Listen failed.", e)
+                return@addSnapshotListener
+            }
+
+            //seleksi kondisi, jika snapshot (cart) tidak ada data
+            if (snapshot!!.isEmpty){
+                Toast.makeText(context, "Keranjang Kosong", Toast.LENGTH_SHORT).show()
+                val intent = Intent(context, MainActivity::class.java)
+                context.startActivity(intent)
+            }
+
 
         }
+    }
+
 
     override fun getItemCount(): Int {
         return CartList.size
