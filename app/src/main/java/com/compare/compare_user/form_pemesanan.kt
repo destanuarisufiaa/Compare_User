@@ -149,10 +149,6 @@ class form_pemesanan : AppCompatActivity(), TransactionFinishedCallback {
 //            MidtransSDK.getInstance().setTransactionRequest(transactionRequest("101",2000, 1, "John"))
             MidtransSDK.getInstance().startPaymentUiFlow(this)
             MidtransSDK.getInstance().transactionRequest = transactionRequest
-
-            TransactionResult.STATUS_SUCCESS
-
-            simpandata()
         }
     }
 
@@ -203,7 +199,7 @@ class form_pemesanan : AppCompatActivity(), TransactionFinishedCallback {
             }
     }
 
-    private fun simpandata() {
+    private fun simpandata(orderID:String) {
 
         val cekGerbongRadioButtonId = rg_gerbong.checkedRadioButtonId
         val listGerbongKereta = findViewById<RadioButton>(cekGerbongRadioButtonId)
@@ -232,7 +228,7 @@ class form_pemesanan : AppCompatActivity(), TransactionFinishedCallback {
             )
             val auth = FirebaseAuth.getInstance()
             val uid = auth.currentUser?.uid
-            dbupdate.collection("pesanan").document(nama).collection("identitas").document(nama)
+            dbupdate.collection("pesanan").document(orderID).collection("identitas").document(nama)
                 .get()
                 .addOnSuccessListener {
                     if (it.exists()) {
@@ -242,7 +238,7 @@ class form_pemesanan : AppCompatActivity(), TransactionFinishedCallback {
                             Toast.LENGTH_SHORT
                         ).show()
                     } else {
-                        dbupdate.collection("pesanan").document(nama).collection("identitas")
+                        dbupdate.collection("pesanan").document(orderID).collection("identitas")
                             .document(nama).set(pesanan)
                             .addOnSuccessListener { documentReference ->
                                 Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
@@ -257,9 +253,10 @@ class form_pemesanan : AppCompatActivity(), TransactionFinishedCallback {
                     Toast.makeText(this, "Gagal membuat pesanan", Toast.LENGTH_SHORT).show()
                 }
 
+            //menyalin cart ke pesanan
             val StorageForm = FirebaseFirestore.getInstance().collection("users").document(uid!!)
                 .collection("Cart")
-            val listPesanan = dbupdate.collection("pesanan").document(nama).collection("menu")
+            val listPesanan = dbupdate.collection("pesanan").document(orderID).collection("menu")
 
             StorageForm.get()
                 .addOnSuccessListener { documents ->
@@ -270,6 +267,8 @@ class form_pemesanan : AppCompatActivity(), TransactionFinishedCallback {
                             "total" to "$total",
                         )
                         listPesanan.document("total").set(totalHarga)
+                        //menghapus cart
+                        StorageForm.document(document.id).delete()
                     }
                 }
                 .addOnFailureListener {
@@ -278,25 +277,21 @@ class form_pemesanan : AppCompatActivity(), TransactionFinishedCallback {
         }
     }
 
-    override fun onTransactionFinished(p0: TransactionResult?) {
-        if(p0?.response?.transactionStatus == TransactionResult.STATUS_SUCCESS){
+    override fun onTransactionFinished(result: TransactionResult?) {
+        if(result?.response?.transactionStatus == TransactionResult.STATUS_SUCCESS){
+            //memindahkan pesanan ke riwayat dan menghapus cart
+            val orderID = result.response?.transactionId
+            simpandata(orderID.toString())
+
             val intent = Intent(applicationContext, MainActivity::class.java)
             startActivity(intent)
-            Toast.makeText(this, "Success transaction", Toast.LENGTH_LONG).show()
-            val db = FirebaseFirestore.getInstance()
-            val data = hashMapOf(
-                "field1" to "value1",
-                "field2" to "value2",
-                // tambahkan field dan value baru sesuai kebutuhan
-            )
-            db.collection("riwayat").add(data)
-                .addOnSuccessListener { documentReference ->
-                    Log.d(TAG, "Data berhasil ditambahkan dengan ID: ${documentReference.id}")
-                }
-                .addOnFailureListener { e ->
-                    Log.w(TAG, "Error menambahkan data", e)
-                }
+            Toast.makeText(this, "Pesanan Telah Dibuat", Toast.LENGTH_LONG).show()
+        }
 
+        if(result?.response?.transactionStatus == TransactionResult.STATUS_PENDING){
+            val intent = Intent(applicationContext, Cart::class.java)
+            startActivity(intent)
+            Toast.makeText(this, "Transaksi Dibatalkan", Toast.LENGTH_LONG).show()
         }
     }
 

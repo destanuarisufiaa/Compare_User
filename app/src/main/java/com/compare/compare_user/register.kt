@@ -136,10 +136,10 @@ class register : AppCompatActivity() {
                         .addOnFailureListener { exception ->
                             Log.w(ContentValues.TAG, "Error adding document $exception")
                         }
-
-                    auth.signOut()
                     val intent = Intent (this, logindanregister::class.java)
                     startActivity(intent)
+                    auth.signOut()
+
                 }else{
                     Toast.makeText(this,"${it.exception?.message}", Toast.LENGTH_SHORT).show()
                 }
