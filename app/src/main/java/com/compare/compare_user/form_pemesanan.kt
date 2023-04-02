@@ -1,7 +1,10 @@
 package com.compare.compare_user
 
+import android.content.ContentValues.TAG
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.compare.compare_user.databinding.ActivityFormPemesananBinding
@@ -16,9 +19,10 @@ import com.midtrans.sdk.corekit.models.BillingAddress
 import com.midtrans.sdk.corekit.models.CustomerDetails
 import com.midtrans.sdk.corekit.models.ShippingAddress
 import com.midtrans.sdk.corekit.models.snap.TransactionResult
+import com.midtrans.sdk.corekit.models.snap.TransactionResult.STATUS_SUCCESS
 import com.midtrans.sdk.uikit.SdkUIFlowBuilder
 import kotlinx.android.synthetic.main.activity_form_pemesanan.*
-class form_pemesanan : AppCompatActivity(), TransactionFinishedCallback{
+class form_pemesanan : AppCompatActivity(), TransactionFinishedCallback {
 
     private lateinit var binding: ActivityFormPemesananBinding
     private val db = Firebase.firestore
@@ -41,25 +45,38 @@ class form_pemesanan : AppCompatActivity(), TransactionFinishedCallback{
         SdkUIFlowBuilder.init()
             .setClientKey("SB-Mid-client-Qe9BaZtS-PQZTOUm")
             .setContext(applicationContext)
-            .setTransactionFinishedCallback(TransactionFinishedCallback {
-                    result ->
-//                if (result?.response != null) {
-//                    when (result.status) {
-//                        TransactionResult.STATUS_SUCCESS -> Toast.makeText(this, "Transaction Finished. ID: ${result.response.transactionId}", Toast.LENGTH_LONG).show()
-//                        TransactionResult.STATUS_PENDING -> Toast.makeText(this, "Transaction Pending. ID: ${result.response.transactionId}", Toast.LENGTH_LONG).show()
-//                        TransactionResult.STATUS_FAILED -> Toast.makeText(this, "Transaction Failed. ID: ${result.response.transactionId}. Message: ${result.response.statusMessage}", Toast.LENGTH_LONG).show()
-//                    }
-//                    result.response.validationMessages
-//                } else if (result?.isTransactionCanceled == true) {
-//                    Toast.makeText(this, "Transaction Canceled", Toast.LENGTH_LONG).show()
+            .setTransactionFinishedCallback(this)
+//            .setTransactionFinishedCallback(TransactionFinishedCallback {
+//                    result ->
+//                if (TransactionResult.STATUS_SUCCESS == "success") {
+//                    Toast.makeText(this, "Success transaction", Toast.LENGTH_LONG).show()
+//                    val db = FirebaseFirestore.getInstance()
+//                    val data = hashMapOf(
+//                        "field1" to "value1",
+//                        "field2" to "value2",
+//                        // tambahkan field dan value baru sesuai kebutuhan
+//                    )
+//                    db.collection("riwayat").add(data)
+//                        .addOnSuccessListener { documentReference ->
+//                            Log.d(TAG, "Data berhasil ditambahkan dengan ID: ${documentReference.id}")
+//                        }
+//                        .addOnFailureListener { e ->
+//                            Log.w(TAG, "Error menambahkan data", e)
+//                        }
+//                } else if (TransactionResult.STATUS_PENDING == "pending") {
+//                    Toast.makeText(this, "Pending transaction", Toast.LENGTH_LONG).show()
+//                } else if (TransactionResult.STATUS_FAILED == "failed") {
+//                    Toast.makeText(this, "Failed ${result.response.statusMessage}", Toast.LENGTH_LONG).show()
+//                } else if (result.status.equals(
+//                        TransactionResult.STATUS_INVALID,
+//                        true
+//                    )
+//                ) {
+//                    Toast.makeText(this, "Invalid transaction", Toast.LENGTH_LONG).show()
 //                } else {
-//                    if (result?.status.equals(TransactionResult.STATUS_INVALID, ignoreCase = true)) {
-//                        Toast.makeText(this, "Transaction Invalid", Toast.LENGTH_LONG).show()
-//                    } else {
-//                        Toast.makeText(this, "Transaction Finished with failure.", Toast.LENGTH_LONG).show()
-//                    }
+//                    Toast.makeText(this, "Failure transaction", Toast.LENGTH_LONG).show()
 //                }
-            })
+//            })
 //            .setMerchantBaseUrl("https://eatrainapp.000webhostapp.com/charge/index.php/")
             .setMerchantBaseUrl("https://eatrainapp.000webhostapp.com/index.php/")
             .enableLog(true)
@@ -76,7 +93,6 @@ class form_pemesanan : AppCompatActivity(), TransactionFinishedCallback{
         namaKereta = findViewById(R.id.txt_namaKereta)
         noGerbong = findViewById(R.id.txt_nomorGerbong)
         noKursi = findViewById(R.id.txt_nomorKursi)
-
 
         val bundle = intent.extras
         if (bundle != null) {
@@ -126,28 +142,7 @@ class form_pemesanan : AppCompatActivity(), TransactionFinishedCallback{
                     }
                 }
 
-//            val dataArrayList = arrayListOf<MidCart>()
-//            val uid = FirebaseAuth.getInstance().currentUser?.uid.toString().trim()
-//            val StorageForm = FirebaseFirestore.getInstance().collection("users").document(uid!!).collection("Cart")
-//            StorageForm.get()
-//                .addOnSuccessListener { documents ->
-//                    for (document in documents){
-//                        val dataMid = document.toObject(MidCart::class.java)
-//                        dataArrayList.add(dataMid)
-//                    }
-//                }
-//                .addOnFailureListener {
-//
-//                }
-
-//            val trans = totall.toDouble()
-
             val transactionRequest = TransactionRequest("Eatrain-App-" + System.currentTimeMillis().toString()+"", totall.toDouble())
-//            val itemDetails = ArrayList<com.midtrans.sdk.corekit.models.ItemDetails>()
-//            for (data in dataArrayList) {
-//                val detail = com.midtrans.sdk.corekit.models.ItemDetails(data.docID, data.price!!.toDouble(), data.quantity, data.name  )
-//                itemDetails.add(detail)
-//            }
 
             uiKitDetails(transactionRequest, nama.trim(), phone, email)
             transactionRequest.itemDetails = itemDetails
@@ -155,9 +150,26 @@ class form_pemesanan : AppCompatActivity(), TransactionFinishedCallback{
             MidtransSDK.getInstance().startPaymentUiFlow(this)
             MidtransSDK.getInstance().transactionRequest = transactionRequest
 
+            TransactionResult.STATUS_SUCCESS
+
             simpandata()
         }
     }
+
+//    private fun riwayatPesanan() {
+//
+//        val dbupdate = FirebaseFirestore.getInstance()
+//        val riwayat = hashMapOf<String, Any>(
+//            "namaMenu" to "nama",
+//            "nomorGerbong" to "harga",
+//            "nomorKursi" to "totalharga",
+//        )
+//        dbupdate.collection("riwayat").document("anu").collection("riwayatPesanan").document("anu")
+//            .set(riwayat)
+//            .addOnSuccessListener {
+//                Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
+//            }
+//    }
 
 
     fun uiKitDetails(transactionRequest: TransactionRequest, name:String, HP:String, email2:String){
@@ -206,9 +218,9 @@ class form_pemesanan : AppCompatActivity(), TransactionFinishedCallback{
         }
         else {
 //            val gerbong = hasilGerbongKereta.trim()
-            val inputKereta = namaKereta.text.toString().trim()
-            val inputGerbong = noGerbong.text.toString().trim()
-            val inputKursi = noKursi.text.toString().trim()
+//            val inputKereta = namaKereta.text.toString().trim()
+//            val inputGerbong = noGerbong.text.toString().trim()
+//            val inputKursi = noKursi.text.toString().trim()
 
             val dbupdate = FirebaseFirestore.getInstance()
             val pesanan = hashMapOf<String, Any>(
@@ -266,26 +278,26 @@ class form_pemesanan : AppCompatActivity(), TransactionFinishedCallback{
         }
     }
 
-    override fun onTransactionFinished(result: TransactionResult?) {
-        if (result != null) {
-            if (result.response != null) {
-                when (result.status) {
-                    TransactionResult.STATUS_SUCCESS -> Toast.makeText(this, "Transaction Finished. ID: " + result.response.transactionId, Toast.LENGTH_LONG).show()
-                    TransactionResult.STATUS_PENDING -> Toast.makeText(this, "Transaction Pending. ID: " + result.response.transactionId, Toast.LENGTH_LONG).show()
-                    TransactionResult.STATUS_FAILED -> Toast.makeText(this, "Transaction Failed. ID: " + result.response.transactionId.toString() + ". Message: " + result.response.statusMessage, Toast.LENGTH_LONG).show()
+    override fun onTransactionFinished(p0: TransactionResult?) {
+        if(p0?.response?.transactionStatus == TransactionResult.STATUS_SUCCESS){
+            val intent = Intent(applicationContext, MainActivity::class.java)
+            startActivity(intent)
+            Toast.makeText(this, "Success transaction", Toast.LENGTH_LONG).show()
+            val db = FirebaseFirestore.getInstance()
+            val data = hashMapOf(
+                "field1" to "value1",
+                "field2" to "value2",
+                // tambahkan field dan value baru sesuai kebutuhan
+            )
+            db.collection("riwayat").add(data)
+                .addOnSuccessListener { documentReference ->
+                    Log.d(TAG, "Data berhasil ditambahkan dengan ID: ${documentReference.id}")
                 }
-//                result.response.validationMessages
-            } else if (result.isTransactionCanceled) {
-                Toast.makeText(this, "Transaction Canceled", Toast.LENGTH_LONG).show()
-            } else {
-                if (result.status.equals(TransactionResult.STATUS_INVALID, true)) {
-                    Toast.makeText(this, "Transaction Invalid", Toast.LENGTH_LONG).show()
-                } else {
-                    Toast.makeText(this, "Transaction Finished with failure.", Toast.LENGTH_LONG).show()
+                .addOnFailureListener { e ->
+                    Log.w(TAG, "Error menambahkan data", e)
                 }
-            }
+
         }
-        TODO("Not yet implemented")
     }
 
 }
