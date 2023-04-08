@@ -58,8 +58,9 @@
                 android:id="@+id/txt_gender_register"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Gender"
+                android:text="Gender"
                 android:textSize="20dp"
+                android:textColor="@color/black"
                 android:layout_marginTop="6dp"
                 android:layout_marginLeft="1dp"/>
 
