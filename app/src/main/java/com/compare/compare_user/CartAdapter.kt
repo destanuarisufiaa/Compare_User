@@ -126,11 +126,11 @@ class CartAdapter(private val context: Context, private var CartList: MutableLis
                     //fungsi notifyDataSetChanged untuk mengupdate tampilan bahwa telah dihapus
                     notifyDataSetChanged()
 
-                    if (CartList.isEmpty()) {
-                        Toast.makeText(context, "Keranjang Kosong", Toast.LENGTH_SHORT).show()
-                        val intent = Intent(context,MainActivity::class.java)
-                        context.startActivity(intent)
-                    }
+//                    if (CartList.isEmpty()) {
+//                        Toast.makeText(context, "Keranjang Kosong", Toast.LENGTH_SHORT).show()
+//                        val intent = Intent(context,MainActivity::class.java)
+//                        context.startActivity(intent)
+//                    }
                 }
         }
         }

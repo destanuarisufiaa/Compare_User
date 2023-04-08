@@ -46,41 +46,8 @@ class form_pemesanan : AppCompatActivity(), TransactionFinishedCallback {
             .setClientKey("SB-Mid-client-Qe9BaZtS-PQZTOUm")
             .setContext(applicationContext)
             .setTransactionFinishedCallback(this)
-//            .setTransactionFinishedCallback(TransactionFinishedCallback {
-//                    result ->
-//                if (TransactionResult.STATUS_SUCCESS == "success") {
-//                    Toast.makeText(this, "Success transaction", Toast.LENGTH_LONG).show()
-//                    val db = FirebaseFirestore.getInstance()
-//                    val data = hashMapOf(
-//                        "field1" to "value1",
-//                        "field2" to "value2",
-//                        // tambahkan field dan value baru sesuai kebutuhan
-//                    )
-//                    db.collection("riwayat").add(data)
-//                        .addOnSuccessListener { documentReference ->
-//                            Log.d(TAG, "Data berhasil ditambahkan dengan ID: ${documentReference.id}")
-//                        }
-//                        .addOnFailureListener { e ->
-//                            Log.w(TAG, "Error menambahkan data", e)
-//                        }
-//                } else if (TransactionResult.STATUS_PENDING == "pending") {
-//                    Toast.makeText(this, "Pending transaction", Toast.LENGTH_LONG).show()
-//                } else if (TransactionResult.STATUS_FAILED == "failed") {
-//                    Toast.makeText(this, "Failed ${result.response.statusMessage}", Toast.LENGTH_LONG).show()
-//                } else if (result.status.equals(
-//                        TransactionResult.STATUS_INVALID,
-//                        true
-//                    )
-//                ) {
-//                    Toast.makeText(this, "Invalid transaction", Toast.LENGTH_LONG).show()
-//                } else {
-//                    Toast.makeText(this, "Failure transaction", Toast.LENGTH_LONG).show()
-//                }
-//            })
-//            .setMerchantBaseUrl("https://eatrainapp.000webhostapp.com/charge/index.php/")
             .setMerchantBaseUrl("https://eatrainapp.000webhostapp.com/index.php/")
             .enableLog(true)
-//            .setColorTheme(CustomColorTheme("#FFE51255", "#B61548", "#FFE51255"))
             .setLanguage("id")
             .buildSDK()
 
@@ -135,10 +102,7 @@ class form_pemesanan : AppCompatActivity(), TransactionFinishedCallback {
 
 
                         val detail = com.midtrans.sdk.corekit.models.ItemDetails("$namaItemId", total, jumlah, "$namaaa")
-
-//                        val detail = com.midtrans.sdk.corekit.models.ItemDetails(namaItemId, harga, jumlah, nama)
                         itemDetails.add(detail)
-//                        itemDetails.add(com.midtrans.sdk.corekit.models.ItemDetails("cobase", totalHarga, jumlah, "$namaaa"))
                     }
                 }
 
@@ -152,22 +116,6 @@ class form_pemesanan : AppCompatActivity(), TransactionFinishedCallback {
         }
     }
 
-//    private fun riwayatPesanan() {
-//
-//        val dbupdate = FirebaseFirestore.getInstance()
-//        val riwayat = hashMapOf<String, Any>(
-//            "namaMenu" to "nama",
-//            "nomorGerbong" to "harga",
-//            "nomorKursi" to "totalharga",
-//        )
-//        dbupdate.collection("riwayat").document("anu").collection("riwayatPesanan").document("anu")
-//            .set(riwayat)
-//            .addOnSuccessListener {
-//                Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
-//            }
-//    }
-
-
     fun uiKitDetails(transactionRequest: TransactionRequest, name:String, HP:String, email2:String){
         val customerDetails = CustomerDetails()
         customerDetails.customerIdentifier = name
@@ -175,10 +123,8 @@ class form_pemesanan : AppCompatActivity(), TransactionFinishedCallback {
         customerDetails.phone = HP
         customerDetails.email = email2
         val shippingAddress = ShippingAddress ()
-//        shippingAddress.phone = "$phone"
         customerDetails.shippingAddress = shippingAddress
         val billingAddress = BillingAddress ()
-//        billingAddress.phone = "$phone"
         customerDetails.billingAddress = billingAddress
 
         transactionRequest.customerDetails = customerDetails
@@ -213,11 +159,6 @@ class form_pemesanan : AppCompatActivity(), TransactionFinishedCallback {
             Toast.makeText(this, "Mohon isi semua form yang tersedia terlebih dahulu", Toast.LENGTH_LONG).show()
         }
         else {
-//            val gerbong = hasilGerbongKereta.trim()
-//            val inputKereta = namaKereta.text.toString().trim()
-//            val inputGerbong = noGerbong.text.toString().trim()
-//            val inputKursi = noKursi.text.toString().trim()
-
             val dbupdate = FirebaseFirestore.getInstance()
             val pesanan = hashMapOf<String, Any>(
                 "namaUser" to nama,
@@ -225,10 +166,11 @@ class form_pemesanan : AppCompatActivity(), TransactionFinishedCallback {
                 "Gerbong" to gerbong,
                 "nomorGerbong" to inputGerbong,
                 "nomorKursi" to inputKursi,
+                "status" to "On Proccess"
             )
             val auth = FirebaseAuth.getInstance()
             val uid = auth.currentUser?.uid
-            dbupdate.collection("pesanan").document(orderID).collection("identitas").document(nama)
+            dbupdate.collection("pesanan").document(orderID)
                 .get()
                 .addOnSuccessListener {
                     if (it.exists()) {
@@ -238,13 +180,18 @@ class form_pemesanan : AppCompatActivity(), TransactionFinishedCallback {
                             Toast.LENGTH_SHORT
                         ).show()
                     } else {
-                        dbupdate.collection("pesanan").document(orderID).collection("identitas")
-                            .document(nama).set(pesanan)
+//                        dbupdate.collection("pesanan").document("identitas").collection(orderID)
+                        dbupdate.collection("pesanan").document(orderID)
+                            .set(pesanan)
                             .addOnSuccessListener { documentReference ->
-                                Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
+                                //pindah ke riwayat
+                                val intent = Intent(applicationContext, MainActivity::class.java)
+                                intent.putExtra("direct", "true")
+                                startActivity(intent)
+//                                Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
                             }
                             .addOnFailureListener { exception ->
-                                Toast.makeText(this, "Failed!, gagal $uid", Toast.LENGTH_SHORT)
+                                Toast.makeText(this, "Failed!, $exception", Toast.LENGTH_SHORT)
                                     .show()
                             }
                     }
@@ -261,7 +208,8 @@ class form_pemesanan : AppCompatActivity(), TransactionFinishedCallback {
             StorageForm.get()
                 .addOnSuccessListener { documents ->
                     for (document in documents) {
-                        listPesanan.document().set(document)
+                        val data = document.data
+                        listPesanan.document().set(data)
                         var total = binding.tvTotalForm.text.toString()
                         val totalHarga = hashMapOf(
                             "total" to "$total",
@@ -278,13 +226,13 @@ class form_pemesanan : AppCompatActivity(), TransactionFinishedCallback {
     }
 
     override fun onTransactionFinished(result: TransactionResult?) {
-        if(result?.response?.transactionStatus == TransactionResult.STATUS_SUCCESS){
+        if(result?.response?.transactionStatus == STATUS_SUCCESS){
             //memindahkan pesanan ke riwayat dan menghapus cart
             val orderID = result.response?.transactionId
             simpandata(orderID.toString())
 
-            val intent = Intent(applicationContext, MainActivity::class.java)
-            startActivity(intent)
+//            val intent = Intent(applicationContext, MainActivity::class.java)
+//            startActivity(intent)
             Toast.makeText(this, "Pesanan Telah Dibuat", Toast.LENGTH_LONG).show()
         }
 

@@ -1,22 +1,17 @@
 package com.compare.compare_user
 
 import android.content.ContentValues.TAG
-import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.compare.compare_user.databinding.ActivityCartBinding
-import com.compare.compare_user.model.CartModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_cart.*
-import kotlinx.android.synthetic.main.cart_item.*
-import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.android.synthetic.main.recycler_item.*
 
 class Cart : AppCompatActivity() {
 
@@ -27,7 +22,6 @@ class Cart : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityCartBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
 
         binding.recyclerViewCart.apply {
             layoutManager = LinearLayoutManager(context)
@@ -96,6 +90,8 @@ class Cart : AppCompatActivity() {
             var totalHarga = 0f
             //seleksi kondisi, jika snapshot (cart) tidak ada data
             if (snapshot!!.isEmpty){
+                //membuat tombol next tidak tersedia jika keranjang kosong
+                btn_next.setVisibility(View.INVISIBLE)
                 // maka pada total di setting menjadi Rp. 0
                 tv_total.text = "Rp. 0"
             }else{
@@ -112,4 +108,5 @@ class Cart : AppCompatActivity() {
         }
 
     }
+
 }
