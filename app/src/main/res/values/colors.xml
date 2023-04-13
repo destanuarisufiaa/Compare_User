@@ -22,5 +22,7 @@
     <color name="followingBg">#49BEFF</color>
     <color name="grey">#E5E5E5</color>
     <color name="biru">#0099FF</color>
-
+    <color name="ungumuda">#D4D9FF</color>
+    <color name="ungu">#E0E3F8</color>
+    <color name="hijau">#BBDBC2</color>
 </resources>

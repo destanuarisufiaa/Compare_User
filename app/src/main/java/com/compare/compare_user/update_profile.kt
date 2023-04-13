@@ -40,6 +40,12 @@ class update_profile : AppCompatActivity() {
         binding = ActivityUpdateProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        backk.setOnClickListener {
+            val intent = Intent(applicationContext, MainActivity::class.java)
+            intent.putExtra("direct", "back")
+            startActivity(intent)
+        }
+
         //cek permission upload gambar
         updatefoto.isEnabled = true
 

@@ -43,7 +43,8 @@ class form_pemesanan : AppCompatActivity(), TransactionFinishedCallback {
         setContentView(binding.root)
 
         SdkUIFlowBuilder.init()
-            .setClientKey("Mid-client-MzngfJOpNWjN8d50")
+//            .setClientKey("SB-Mid-client-Qe9BaZtS-PQZTOUm") //Sandbox
+            .setClientKey("Mid-client-MzngfJOpNWjN8d50") //Production
             .setContext(applicationContext)
             .setTransactionFinishedCallback(this)
 //            .setMerchantBaseUrl("https://eatrainapp.000webhostapp.com/index.php/") //Sandbox

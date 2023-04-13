@@ -5,12 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/top_background"
     tools:context=".Cart">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/gradStart"
+        android:background="@color/purple_700"
         android:orientation="horizontal"
         android:padding="10dp">
 
@@ -50,7 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:background="@color/white"
+            android:background="@color/ungumuda"
             android:orientation="horizontal"
             android:paddingHorizontal="15dp"
             android:paddingVertical="10dp">
@@ -63,7 +64,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Total" />
+                    android:text="Total"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:textSize="16dp"/>
 
                 <TextView
                     android:id="@+id/tv_total"
@@ -80,7 +84,7 @@
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:background="@drawable/bg_btn_beli"
+                android:background="@color/purple_700"
                 android:gravity="center"
                 android:padding="10dp"
                 android:text="NEXT"

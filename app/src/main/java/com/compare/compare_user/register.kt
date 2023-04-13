@@ -62,7 +62,7 @@ class register : AppCompatActivity() {
             val listGender = findViewById<RadioButton>(cekGenderRadioButtonId)
 
             val hasilGender = "${listGender.text}"
-            gender.text = hasilGender
+//            gender.text = hasilGender
 
 
             //Validasi Email

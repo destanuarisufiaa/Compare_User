@@ -15,6 +15,9 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val bundle = intent.getStringExtra("direct")
+        if (bundle == "back"){
+            replaceFragment(ProfilPengguna())
+        }else
         if (bundle == "true")
         {
             replaceFragment(riwayat())

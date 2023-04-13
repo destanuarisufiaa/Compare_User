@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/top_background1"
     tools:context=".form_pemesanan">
 
         <RelativeLayout
@@ -57,7 +58,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Nama Kereta"
-                    android:textColor="@color/headings"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
                     android:textSize="13sp" />
 
                 <EditText
@@ -66,7 +68,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
                     android:hint="inputkan disini"
-                    android:textColor="#000000"
+                    android:textColor="@color/black"
                     android:textSize="13sp" />
 
                 <View
@@ -86,7 +88,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Nomor Gerbong"
-                    android:textColor="@color/headings"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
                     android:textSize="13sp" />
 
                 <RadioGroup
@@ -97,7 +100,8 @@
                     android:orientation="horizontal">
                     <RadioButton
                         android:id="@+id/eks"
-                        android:textColor="@color/headings"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="EKS"/>
@@ -105,7 +109,8 @@
                         android:id="@+id/female"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/headings"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
                         android:text="EKO"
                         android:layout_marginLeft="10dp"/>
                 </RadioGroup>
@@ -137,7 +142,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Nomor Kursi"
-                    android:textColor="@color/headings"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
                     android:textSize="13sp" />
 
                 <EditText
@@ -209,7 +215,7 @@
                         android:layout_width="120dp"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:background="@drawable/bg_btn_beli"
+                        android:background="@color/purple_700"
                         android:gravity="center"
                         android:padding="10dp"
                         android:text="BAYAR"
