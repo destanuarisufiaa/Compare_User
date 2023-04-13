@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/teal_700"
+    android:background="@color/followers"
     android:padding="30dp"
     tools:context=".register">
 
@@ -19,6 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:background="@color/white"
             android:padding="40dp">
 
             <ImageView
@@ -35,8 +36,8 @@
                 android:backgroundTint="@color/black"
                 android:text="REGISTER"
                 android:textAlignment="center"
-                android:textColor="@color/teal_700"
-                android:textSize="24sp"
+                android:textColor="@color/black"
+                android:textSize="30sp"
                 android:textStyle="bold" />
 
             <EditText
@@ -44,24 +45,29 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Nama Lengkap"
+                android:drawableLeft="@drawable/ic_baseline_person_24"
                 android:layout_marginTop="5dp"
-                android:inputType="text"/>
+                android:inputType="textCapWords"
+                android:textAllCaps="true"/>
 
             <EditText
                 android:id="@+id/edt_nomorhp_register"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Nomor Handphone"
+                android:drawableLeft="@drawable/ic_baseline_smartphone_24"
                 android:inputType="number"/>
 
             <TextView
                 android:id="@+id/txt_gender_register"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Gender"
-                android:textSize="20dp"
+                android:text="Gender"
+                android:textSize="18dp"
+                android:textColor="@color/black"
+                android:drawableLeft="@drawable/ic_baseline_people_24"
                 android:layout_marginTop="6dp"
-                android:layout_marginLeft="1dp"/>
+                android:layout_marginLeft="5dp"/>
 
             <RadioGroup
                 android:id="@+id/rg_gender1_register"
@@ -72,12 +78,16 @@
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Pria"/>
+                    android:text="Pria"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"/>
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Wanita"
-                    android:layout_marginLeft="10dp"/>
+                    android:layout_marginLeft="10dp"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"/>
             </RadioGroup>
 
             <EditText
@@ -85,8 +95,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Email"
-                android:inputType="textEmailAddress"
-                />
+                android:drawableLeft="@drawable/ic_baseline_email_24"
+                android:inputType="textEmailAddress"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -102,6 +112,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Password"
                 android:inputType="textPassword"
+                android:drawableLeft="@drawable/ic_baseline_password_24"
                 android:layout_marginTop="5dp"/>
 
             <TextView
@@ -117,14 +128,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:backgroundTint="@color/teal_700"
-                android:text="Register" />
+                android:backgroundTint="@color/purple_700"
+                android:text="Register"
+                android:textColor="@color/white"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:backgroundTint="@color/black"
+                android:textColor="@color/black"
+                android:textStyle="bold"
                 android:text="Already Have Account"
                 android:textAlignment="center"/>
 
@@ -134,12 +148,11 @@
                 android:id="@+id/tv_to_login"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/teal_700"
-                android:text="Login"
+                android:backgroundTint="@color/black"
+                android:text="LOGIN"
                 android:textAlignment="center"
-                android:textColor="@color/teal_700"
+                android:textColor="@color/black"
                 android:textStyle="bold"/>
-
 
         </LinearLayout>
 

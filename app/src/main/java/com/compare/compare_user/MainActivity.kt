@@ -14,8 +14,15 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        val bundle = intent.getStringExtra("direct")
+        if (bundle == "back"){
+            replaceFragment(ProfilPengguna())
+        }else
+        if (bundle == "true")
+        {
+            replaceFragment(riwayat())
+        } else replaceFragment(Home())
 
-        replaceFragment(Home())
 
         binding.bottomNavigationView.setOnItemSelectedListener {
             when(it.itemId){

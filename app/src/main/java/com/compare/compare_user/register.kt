@@ -62,7 +62,7 @@ class register : AppCompatActivity() {
             val listGender = findViewById<RadioButton>(cekGenderRadioButtonId)
 
             val hasilGender = "${listGender.text}"
-            gender.text = hasilGender
+//            gender.text = hasilGender
 
 
             //Validasi Email
@@ -134,7 +134,7 @@ class register : AppCompatActivity() {
                         "key" to "",
                     )
                     val uid = auth.currentUser?.uid
-                    firestore.collection("users").document(uid!!)
+                    firestore.collection("users").document(uid!!).collection("Profil").document(uid!!)
                         .set(user)
                         .addOnSuccessListener { documentReference ->
                             Toast.makeText(this, "Success", Toast.LENGTH_LONG).show()
@@ -142,10 +142,10 @@ class register : AppCompatActivity() {
                         .addOnFailureListener { exception ->
                             Log.w(ContentValues.TAG, "Error adding document $exception")
                         }
-
-                    auth.signOut()
                     val intent = Intent (this, logindanregister::class.java)
                     startActivity(intent)
+                    auth.signOut()
+
                 }else{
                     Toast.makeText(this,"${it.exception?.message}", Toast.LENGTH_SHORT).show()
                 }

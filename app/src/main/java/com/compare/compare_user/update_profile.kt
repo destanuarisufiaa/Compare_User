@@ -40,6 +40,12 @@ class update_profile : AppCompatActivity() {
         binding = ActivityUpdateProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        backk.setOnClickListener {
+            val intent = Intent(applicationContext, MainActivity::class.java)
+            intent.putExtra("direct", "back")
+            startActivity(intent)
+        }
+
         //cek permission upload gambar
         updatefoto.isEnabled = true
 
@@ -196,7 +202,7 @@ class update_profile : AppCompatActivity() {
                         )
                         val auth = FirebaseAuth.getInstance()
                         val uid = auth.currentUser?.uid
-                        dbupdate.collection("users").document(uid!!).update(bahanProfile)
+                        dbupdate.collection("users").document(uid!!).collection("Profil").document(uid!!).update(bahanProfile)
                             .addOnSuccessListener { documentReference ->
                                 Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
                                 val intent = Intent(this, MainActivity::class.java)

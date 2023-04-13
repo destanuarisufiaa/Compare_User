@@ -54,7 +54,7 @@ class ProfilPengguna : Fragment() {
         val foto = view.findViewById<ImageView>(R.id.uploadimage_user)
 
 
-        val docRef = db.collection("users").document(userid!!)
+        val docRef = db.collection("users").document(userid!!).collection("Profil").document(userid!!)
         docRef.get()
             .addOnSuccessListener { document ->
                 if (document != null) {
@@ -94,14 +94,7 @@ class ProfilPengguna : Fragment() {
                     .putExtra("foto", imageURL)
                 startActivity(intent)
                 finish()
-            }// If activity no more needed in back stack
-//            val intent = Intent(activity, update_profile::class.java)
-//                .putExtra("nama",ShowName.text.toString().trim())
-//                .putExtra("phone", ShowPhone.text.toString().trim())
-//                .putExtra("gender", ShowGender.text.toString().trim())
-//                .putExtra("email", ShowEmail.text.toString().trim())
-//                .putExtra("foto", imageURL)
-//            activity?.startActivity(intent)
+            }
         }
 
         binding.btnChangePass.setOnClickListener {

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/layout"
+    android:id="@+id/recCard_Cart"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="2dp"
@@ -19,10 +19,6 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <CheckBox
-                android:id="@+id/checkBox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
 
             <ImageView
                 android:id="@+id/img_produk"
@@ -33,14 +29,22 @@
 
             <TextView
                 android:id="@+id/tv_nama"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="5dp"
-                android:ellipsize="marquee"
-                android:lines="2"
-                android:maxLines="3"
                 android:text="Nama Produk"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/tv_hargaAsli"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginRight="5dp"
+                android:text="Harga Produk"
                 android:textColor="@color/black" />
 
         </LinearLayout>
@@ -51,7 +55,7 @@
             android:layout_marginTop="10dp">
 
             <ImageView
-                android:id="@+id/btn_delete"
+                android:id="@+id/btn_delete2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -65,14 +69,26 @@
                 android:gravity="center"
                 android:orientation="horizontal">
 
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="1dp"
+                    android:layout_marginRight="1dp"
+                    android:ellipsize="marquee"
+                    android:text="Rp."
+                    android:textColor="@color/black"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
+
                 <TextView
                     android:id="@+id/tv_harga"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="2dp"
                     android:layout_marginRight="15dp"
                     android:ellipsize="marquee"
-                    android:text="Rp.10.000"
+                    android:text="0"
                     android:textColor="@color/black"
                     android:textSize="16dp"
                     android:textStyle="bold" />

@@ -1,17 +1,20 @@
 package com.compare.compare_user
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.app.ActivityCompat.recreate
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.compare.compare_user.databinding.FragmentHomeBinding
 import com.compare.compare_user.eventbus.UpdateCartEvent
 import com.compare.compare_user.listener.ICartLoadListener
 import com.compare.compare_user.model.CartModel
-import com.google.firebase.database.DatabaseError
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.greenrobot.eventbus.EventBus
@@ -27,6 +30,7 @@ class Home : Fragment(), ICartLoadListener {
     override fun onStart() {
         super.onStart()
         EventBus.getDefault().register(this)
+        countCartFromFirebase()
     }
 
     override fun onStop() {
@@ -35,6 +39,7 @@ class Home : Fragment(), ICartLoadListener {
             EventBus.getDefault().removeStickyEvent(UpdateCartEvent::class.java)
         EventBus.getDefault().unregister(this)
     }
+
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public fun onUpdateCartEvent(event: UpdateCartEvent){
@@ -57,6 +62,11 @@ class Home : Fragment(), ICartLoadListener {
         init()
         fetchData()
         countCartFromFirebase()
+
+        cartButton.setOnClickListener {
+            val intent = Intent(context, Cart::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun init() {
@@ -65,7 +75,8 @@ class Home : Fragment(), ICartLoadListener {
 
     private fun countCartFromFirebase() {
         val cartModels:MutableList<CartModel> = ArrayList()
-        var FStore = FirebaseFirestore.getInstance().collection("users")
+        val uid = FirebaseAuth.getInstance().currentUser?.uid.toString().trim()
+        var FStore = FirebaseFirestore.getInstance().collection("users").document(uid!!).collection("Cart")
         FStore.get()
             .addOnSuccessListener { documents ->
                 for (document in documents){
@@ -73,9 +84,9 @@ class Home : Fragment(), ICartLoadListener {
                     cartModel!!.key = document.id
                     cartModels.add(cartModel)
                 }
-                cartLoadListener.onLoadCartSuccess(cartModels)
-            }.addOnFailureListener {
-                cartLoadListener.onLoadCartfailed(it.message)
+//                cartLoadListener.onLoadCartSuccess(cartModels)
+            }.addOnCanceledListener {
+                cartLoadListener.onLoadCartfailed(message = "")
             }
 
     }
@@ -85,26 +96,27 @@ class Home : Fragment(), ICartLoadListener {
         FirebaseFirestore.getInstance().collection("Menu")
             .get()
             .addOnSuccessListener { documents ->
-                for (document in documents){
+                for (document in documents) {
                     idgaes = document.id
                     val menu = documents.toObjects(Menu::class.java)
-                    binding.recyclerView.adapter = context?.let { MyAdapter (it, menu, cartLoadListener) }
+                    binding.recyclerView.adapter =
+                        context?.let { MyAdapter(it, menu, cartLoadListener) }
                 }
-
             }
             .addOnFailureListener {
 
             }
     }
 
-    override fun onLoadCartSuccess(cartModelList: List<CartModel>) {
+    override fun onLoadCartfailed(message: String?) {
+        Toast.makeText(activity, "$activity.exception?.$message", Toast.LENGTH_SHORT).show()
+//        Toast.makeText(activity, "SUKSESSSSS", Toast.LENGTH_SHORT).show()
+    }
+    override fun onLoadCartSuccess(cartModelList: MutableList<CartModel>) {
         var cartSum = 0
         for (cartModel in cartModelList!!) cartSum += cartModel!!.quantity
         badge!!.setNumber(cartSum)
     }
 
-    override fun onLoadCartfailed(message: String?) {
-//        Toast.makeText(activity, "$activity.exception?.message}", Toast.LENGTH_SHORT).show()
-        Toast.makeText(activity, "SUKSESSSSS", Toast.LENGTH_SHORT).show()
-    }
+
 }
