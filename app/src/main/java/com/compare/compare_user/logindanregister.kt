@@ -7,6 +7,7 @@ import android.util.Patterns
 import android.widget.Toast
 import com.compare.compare_user.databinding.ActivityLogindanregisterBinding
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_logindanregister.*
 
 class logindanregister : AppCompatActivity() {
@@ -59,16 +60,30 @@ class logindanregister : AppCompatActivity() {
     }
     private fun LoginFirebase(email: String, password: String) {
         auth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this){
-                if (it.isSuccessful){
+            .addOnCompleteListener(this) {
+                if (it.isSuccessful) {
                     val uid = auth.currentUser?.uid
-                    Toast.makeText(this, "Selamat datang $email", Toast.LENGTH_SHORT).show()
-                    val intent = Intent (this, MainActivity::class.java).also {
-                        it.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    val db = FirebaseFirestore.getInstance()
+                    val cekDoc = db.collection("users").document(uid!!).collection("Profil").document(uid)
+                    cekDoc.get().addOnSuccessListener {
+                        if (it.getString("email") == auth.currentUser?.email){
+                            Toast.makeText(this, "Selamat datang $email", Toast.LENGTH_SHORT).show()
+                            val intent = Intent(this, MainActivity::class.java).also {
+                                it.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                            }
+                            startActivity(intent)
+                        }else
+                        {
+                            auth.signOut()
+                            Toast.makeText(this, "SILAHKAN LOGIN ULANG, DATA TIDAK DITEMUKAN", Toast.LENGTH_SHORT).show()
+                        }
                     }
-                    startActivity(intent)
-                }else{
-                    Toast.makeText(this,"${it.exception?.message}", Toast.LENGTH_SHORT).show()
+                        .addOnFailureListener(){
+                            Toast.makeText(this, "GAGAL MEMBACA DATA. SILAHKAN LOGIN ULANG", Toast.LENGTH_SHORT).show()
+
+                        }
+                } else {
+                    Toast.makeText(this, "${it.exception?.message}", Toast.LENGTH_SHORT).show()
                 }
             }
     }
