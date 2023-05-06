@@ -54,6 +54,27 @@
                     android:textColor="@color/black"
                     android:textSize="16dp" />
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="TIMER PESANAN"
+                    android:textColor="@color/purple_700"
+                    android:textStyle="bold"
+                    android:layout_marginTop="20dp"
+                    android:textSize="18dp"
+                    android:textAlignment="center"/>
+
+                <TextView
+                    android:id="@+id/text_view_countdown"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:text="00:00"
+                    android:layout_gravity="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="30sp" />
+
             </LinearLayout>
 
         </RelativeLayout>
