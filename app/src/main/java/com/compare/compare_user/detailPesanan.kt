@@ -67,38 +67,6 @@ class detailPesanan : AppCompatActivity() {
             .addOnFailureListener { exception ->
                 Log.e(TAG, "Error getting countdowns", exception)
             }
-
-//        // Mendapatkan countdown terbaru dari Firebase Firestore
-//        countdownsRef.orderBy("start_time", Query.Direction.DESCENDING).limit(1)
-//            .get()
-//            .addOnSuccessListener { documents ->
-//                for (document in documents) {
-//                    val startTime = document.getLong("start_time")!!
-//                    val timeLeft = document.getLong("time_left")!!
-//
-//                    // Hitung waktu yang tersisa
-//                    val currentTime = System.currentTimeMillis()
-//                    val elapsedTime = currentTime - startTime
-//                    val timeLeftInMillis = timeLeft - elapsedTime
-//
-//                    // Tampilkan countdown
-//                    val hours = (timeLeftInMillis / 1000) / 3600
-//                    val minutes = ((timeLeftInMillis / 1000) % 3600) / 60
-//                    val seconds = (timeLeftInMillis / 1000) % 60
-//
-//                    val timeLeftFormatted = if (hours > 0) {
-//                        String.format(Locale.getDefault(), "%d:%02d:%02d", hours, minutes, seconds)
-//                    } else {
-//                        String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds)
-//                    }
-//
-//                    // Set text pada TextView
-//                    countdownTextView.text = timeLeftFormatted
-//                }
-//            }
-//            .addOnFailureListener { exception ->
-//                Log.e(TAG, "Error getting countdowns", exception)
-//            }
     }
 
     private fun fetchDataPesanan() {

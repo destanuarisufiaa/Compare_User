@@ -1,5 +1,7 @@
 package com.compare.compare_user
 
+import android.media.RingtoneManager
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -33,16 +35,19 @@ class riwayat : Fragment() {
 
     private fun riwayatPesanan() {
         val listPesananRiwayat = FirebaseFirestore.getInstance().collection("pesanan")
-        listPesananRiwayat.get()
-            .addOnSuccessListener { documents ->
-                for (document in documents)
-                {
-                    val riwayat = documents.toObjects(dataRiwayat::class.java)
-                    binding.recyclerViewPesanan.adapter = context?.let { RiwayatAdapter(it, riwayat) }
+        listPesananRiwayat.addSnapshotListener { snapshots, e ->
+            if (e != null) {
+                // Jika terjadi error pada listener
+                return@addSnapshotListener
+            }
 
-                }
+            // Jika tidak ada error, kita cek apakah snapshot berisi data
+            if (snapshots != null && !snapshots.isEmpty) {
+                val riwayat = snapshots.toObjects(dataRiwayat::class.java)
+                //requireContext() digunakan untuk mengambil context fragment yang dipastikan selalu tidak null.
+                binding.recyclerViewPesanan.adapter = requireContext().let { RiwayatAdapter(it, riwayat) }
 
             }
+        }
     }
-
 }

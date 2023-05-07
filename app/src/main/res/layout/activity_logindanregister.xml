@@ -9,14 +9,19 @@
     android:padding="30dp">
 
     <ImageView
-        android:layout_width="350dp"
-        android:layout_height="150dp"
-        android:src="@drawable/logo" />
+        android:id="@+id/header"
+        android:layout_width="wrap_content"
+        android:layout_height="180dp"
+        android:layout_centerInParent="false"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/bg_rounded_white"
+        android:src="@drawable/user" />
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_below="@id/header"
         android:background="@color/white"
         app:cardCornerRadius="20dp">
 
@@ -33,26 +38,46 @@
                 android:layout_gravity="center"
                 android:backgroundTint="@color/black"
                 android:text="LOGIN"
+                android:fontFamily="monospace"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="30sp"
                 android:textStyle="bold"/>
 
-            <EditText
-                android:id="@+id/edt_email_login"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Email"
-                android:drawableLeft="@drawable/ic_baseline_email_24"
-                android:inputType="textEmailAddress" />
+                app:startIconDrawable="@drawable/ic_baseline_email_24"
+                app:boxBackgroundColor="@color/white"
+                app:boxStrokeWidth="0dp"
+                android:layout_marginTop="10dp">
 
-            <EditText
-                android:id="@+id/edt_password_login"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edt_email_login"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_rounded_trans"
+                    android:inputType="textEmailAddress"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Password"
-                android:drawableLeft="@drawable/ic_baseline_password_24"
-                android:inputType="textPassword"/>
+                app:startIconDrawable="@drawable/ic_baseline_password_24"
+                app:boxBackgroundColor="@color/white"
+                android:layout_marginTop="10dp"
+                app:boxStrokeWidth="0dp"
+                app:passwordToggleEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edt_password_login"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_rounded_trans"
+                    android:inputType="textPassword"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 android:id="@+id/GantiPassword"

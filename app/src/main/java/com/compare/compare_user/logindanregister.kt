@@ -67,7 +67,8 @@ class logindanregister : AppCompatActivity() {
                     val cekDoc = db.collection("users").document(uid!!).collection("Profil").document(uid)
                     cekDoc.get().addOnSuccessListener {
                         if (it.getString("email") == auth.currentUser?.email){
-                            Toast.makeText(this, "Selamat datang $email", Toast.LENGTH_SHORT).show()
+                            val nama = it.getString("name")
+                            Toast.makeText(this, "Selamat datang, $nama", Toast.LENGTH_SHORT).show()
                             val intent = Intent(this, MainActivity::class.java).also {
                                 it.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                             }
