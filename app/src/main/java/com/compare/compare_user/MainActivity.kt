@@ -52,7 +52,6 @@ class MainActivity : AppCompatActivity() {
         // Mendefinisikan uri dari file audio
         val ringtonePersiapanUri = Uri.parse("android.resource://com.compare.compare_user/" + R.raw.disiapkan)
         val ringtoneAntarUri = Uri.parse("android.resource://com.compare.compare_user/" + R.raw.diantar)
-        val ringtoneSelesaiUri = Uri.parse("android.resource://com.compare.compare_user/" + R.raw.selesai)
 
         // Menambahkan listener untuk mengambil data
         pesananRef.addSnapshotListener { snapshot, e ->
@@ -78,13 +77,6 @@ class MainActivity : AppCompatActivity() {
                         "ANTAR" -> {
                             if (!isNotificationPlayed) {
                                 ringtone = RingtoneManager.getRingtone(applicationContext, ringtoneAntarUri)
-                                ringtone.play()
-                                isNotificationPlayed = true
-                            }
-                        }
-                        "SELESAI" -> {
-                            if (!isNotificationPlayed) {
-                                ringtone = RingtoneManager.getRingtone(applicationContext, ringtoneSelesaiUri)
                                 ringtone.play()
                                 isNotificationPlayed = true
                             }
