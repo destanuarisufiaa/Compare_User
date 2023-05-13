@@ -38,9 +38,9 @@ class DetailActivity : AppCompatActivity() {
         if (bundle != null) {
             dokumenID = bundle.getString("namaMenu").toString().trim()
             binding.detailTittle.text = bundle.getString("namaMenu")
-            binding.detailHarga.text = bundle.getString("Harga")
+            val harga = bundle.getString("Harga")
+            binding.detailHarga.text = "Rp. $harga"
             binding.detailDesc.text = bundle.getString("Desc")
-            binding.IDmenu.text= dokumenID
             imageURL = bundle.getString("Image")!!
             Glide.with(this).load(bundle.getString("Image")).into(binding.detailImage)
         }
