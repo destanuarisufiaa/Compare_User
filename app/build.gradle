@@ -61,10 +61,11 @@ dependencies {
     implementation 'com.nex3z:notification-badge:1.0.4'
     implementation 'org.greenrobot:eventbus:3.2.0'
     implementation 'de.hdodenhof:circleimageview:2.1.0'
+    implementation 'com.github.yalantis:ucrop:2.2.8-native'
 
     // payment gateway midtrans
-//    implementation 'com.midtrans:uikit:2.0.0-SANDBOX'
-    implementation 'com.midtrans:uikit:2.0.0'
-    implementation 'com.midtrans:uikit:1.34.0'
+    implementation 'com.midtrans:uikit:2.0.0-SANDBOX'
+//    implementation 'com.midtrans:uikit:2.0.0'
+//    implementation 'com.midtrans:uikit:1.34.0'
 
 }

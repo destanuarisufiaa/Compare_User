@@ -4,6 +4,7 @@ pluginManagement {
         google()
         mavenCentral()
         jcenter()
+        maven { url "https://jitpack.io"}
     }
 }
 dependencyResolutionManagement {
@@ -11,6 +12,8 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        jcenter()
+        maven { url "https://jitpack.io"}
     }
 }
 rootProject.name = "Compare_User"

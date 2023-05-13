@@ -193,7 +193,8 @@
                 android:backgroundTint="@color/black"
                 android:textColor="@color/black"
                 android:textStyle="bold"
-                android:text="Already Have Account"
+                android:textSize="12dp"
+                android:text="SUDAH MEMPUNYAI AKUN?"
                 android:textAlignment="center"/>
 
             <!--            jika ingin balik ke halaman login-->
@@ -204,6 +205,7 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/black"
                 android:text="LOGIN"
+                android:textSize="20dp"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textStyle="bold"/>

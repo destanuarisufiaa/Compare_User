@@ -65,14 +65,14 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="15dp">
+        android:layout_marginTop="1dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="false"
             android:layout_marginLeft="30dp"
-            android:layout_marginTop="265dp"
+            android:layout_marginTop="250dp"
             android:layout_marginRight="30dp"
             android:orientation="vertical">
 
@@ -84,10 +84,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Nama"
+                    android:text="NAME"
                     android:textColor="@color/black"
                     android:textStyle="bold"
-                    android:textSize="13sp" />
+                    android:textSize="20sp" />
 
                 <EditText
                     android:id="@+id/update_nama"
@@ -110,10 +110,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Email"
+                    android:text="EMAIL"
                     android:textColor="@color/black"
                     android:textStyle="bold"
-                    android:textSize="13sp" />
+                    android:textSize="20sp" />
 
                 <EditText
                     android:id="@+id/update_email"
@@ -136,10 +136,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Gender"
+                    android:text="GENDER"
                     android:textColor="@color/black"
                     android:textStyle="bold"
-                    android:textSize="13sp"  />
+                    android:textSize="20sp"  />
 
                 <RadioGroup
                     android:id="@+id/rg_gender_update"
@@ -151,14 +151,14 @@
                         android:id="@+id/male"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Pria"
+                        android:text="MALE"
                         android:textColor="@color/black"
                         android:textStyle="bold"/>
                     <RadioButton
                         android:id="@+id/female"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Wanita"
+                        android:text="FEMALE"
                         android:layout_marginLeft="10dp"
                         android:textColor="@color/black"
                         android:textStyle="bold"/>
@@ -175,10 +175,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Phone"
+                    android:text="PHONE"
                     android:textColor="@color/black"
                     android:textStyle="bold"
-                    android:textSize="13sp" />
+                    android:textSize="20sp" />
 
                 <EditText
                     android:id="@+id/update_nomor"

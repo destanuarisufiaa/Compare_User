@@ -39,7 +39,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Total Biaya Pemesanan"
+                    android:text="TOTAL ORDER COST"
                     android:textColor="@color/black"
                     android:textStyle="bold"
                     android:textSize="18dp"
@@ -52,12 +52,12 @@
                     android:text="Rp.0"
                     android:textAlignment="center"
                     android:textColor="@color/black"
-                    android:textSize="16dp" />
+                    android:textSize="20dp" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="TIMER PESANAN"
+                    android:text="COUNTDOWN"
                     android:textColor="@color/purple_700"
                     android:textStyle="bold"
                     android:layout_marginTop="20dp"

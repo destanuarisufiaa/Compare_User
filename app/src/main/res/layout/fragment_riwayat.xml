@@ -21,7 +21,7 @@
             android:layout_height="?android:attr/actionBarSize">
 
             <TextView
-                android:text="RIWAYAT PESANAN"
+                android:text="ORDER HISTORY"
                 android:layout_gravity="center_vertical"
                 android:textSize="30sp"
                 android:textStyle="bold"

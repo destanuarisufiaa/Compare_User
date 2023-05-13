@@ -23,8 +23,8 @@
         android:textSize="30dp"/>
 
     <ImageView
-        android:layout_width="200dp"
-        android:layout_height="230dp"
+        android:layout_width="230dp"
+        android:layout_height="210dp"
         android:id="@+id/detailImage"
         android:layout_marginTop="5dp"
         android:padding="8dp"
@@ -41,7 +41,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:text="Harga : "
+            android:text="PRICE : "
             android:textStyle="bold"
             android:layout_gravity="center"
             android:textColor="@color/black"
@@ -85,7 +85,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:text="Deskripsi : "
+            android:text="DESCRIPTION : "
+            android:layout_marginTop="10dp"
             android:layout_gravity="center"
             android:textColor="@color/black"
             android:textStyle="bold"
@@ -147,10 +148,10 @@
                 android:layout_centerInParent="true"
                 android:background="@color/teal_700"
                 android:drawableLeft="@drawable/ic_baseline_add_shopping_cart_24"
-                android:text="Tambahkan ke keranjang"
+                android:text="ADD TO CART"
                 android:textAllCaps="true"
                 android:textColor="@color/white"
-                android:textSize="15dp"
+                android:textSize="20dp"
                 android:textStyle="bold" />
 
         </RelativeLayout>

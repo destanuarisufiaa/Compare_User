@@ -18,7 +18,7 @@
                 android:id="@+id/judul_namapemesan"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="NAMA PEMESAN"
+                android:text="CUSTOMER NAME"
                 android:textStyle="bold"
                 android:textColor="@color/black"
                 android:textAlignment="center"
@@ -62,7 +62,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Nama Kereta"
+                    android:text="TRAIN NAME"
                     android:textColor="@color/black"
                     android:textStyle="bold"
                     android:textSize="16sp" />
@@ -92,7 +92,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Nomor Gerbong"
+                    android:text="TRAIN CAR NUMBER"
                     android:textColor="@color/black"
                     android:textStyle="bold"
                     android:textSize="16sp" />
@@ -146,7 +146,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Nomor Kursi"
+                    android:text="SEAT NUMBER"
                     android:textColor="@color/black"
                     android:textStyle="bold"
                     android:textSize="16sp" />
@@ -207,7 +207,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Total Biaya Pemesanan"
+                        android:text="TOTAL ORDER COST"
                         android:textColor="@color/black"
                         android:textStyle="bold"
                         android:textSize="18dp"
@@ -231,9 +231,9 @@
                         android:background="@color/purple_700"
                         android:gravity="center"
                         android:padding="10dp"
-                        android:text="BAYAR"
+                        android:text="PAY"
                         android:textColor="@color/white"
-                        android:textSize="15dp"
+                        android:textSize="20dp"
                         android:textStyle="bold" />
 
             </RelativeLayout>
