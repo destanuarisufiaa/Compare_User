@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.compare.compare_user.databinding.FragmentRiwayatBinding
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 class riwayat : Fragment() {
@@ -34,20 +35,30 @@ class riwayat : Fragment() {
     }
 
     private fun riwayatPesanan() {
-        val listPesananRiwayat = FirebaseFirestore.getInstance().collection("pesanan")
-        listPesananRiwayat.addSnapshotListener { snapshots, e ->
-            if (e != null) {
-                // Jika terjadi error pada listener
-                return@addSnapshotListener
+        val uid = FirebaseAuth.getInstance().currentUser?.uid
+        val auth = FirebaseFirestore.getInstance().collection("users").document(uid!!).collection("Profil").document(uid!!)
+        auth.get()
+            .addOnSuccessListener {
+               val nama = it.getString("name").toString()
+
+                //mengambil riwayat
+                val listPesananRiwayat = FirebaseFirestore.getInstance().collection("pesanan").whereEqualTo("namaUser", "$nama" )
+                listPesananRiwayat.addSnapshotListener { snapshots, e ->
+                    if (e != null) {
+                        // Jika terjadi error pada listener
+                        return@addSnapshotListener
+                    }
+
+                    // Jika tidak ada error, kita cek apakah snapshot berisi data
+                    if (snapshots != null && !snapshots.isEmpty) {
+                        val riwayat = snapshots.toObjects(dataRiwayat::class.java)
+                        //requireContext() digunakan untuk mengambil context fragment yang dipastikan selalu tidak null.
+                        binding.recyclerViewPesanan.adapter = requireContext().let { RiwayatAdapter(it, riwayat) }
+
+                    }
+                }
             }
 
-            // Jika tidak ada error, kita cek apakah snapshot berisi data
-            if (snapshots != null && !snapshots.isEmpty) {
-                val riwayat = snapshots.toObjects(dataRiwayat::class.java)
-                //requireContext() digunakan untuk mengambil context fragment yang dipastikan selalu tidak null.
-                binding.recyclerViewPesanan.adapter = requireContext().let { RiwayatAdapter(it, riwayat) }
 
-            }
-        }
     }
 }

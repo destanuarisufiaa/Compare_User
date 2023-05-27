@@ -16,7 +16,6 @@ class RiwayatAdapter(private val context: Context, private var ListPesanan: Muta
         val orderID : TextView = itemView.findViewById(R.id.recOrderID)
         val namaKereta : TextView = itemView.findViewById(R.id.recNamaKereta)
         val namaGerbong : TextView = itemView.findViewById(R.id.recNamaGerbong)
-        val nomorGerbong : TextView = itemView.findViewById(R.id.recNomorGerbong)
         val nomorKursi: TextView = itemView.findViewById(R.id.recNomorKursi)
         val status: TextView = itemView.findViewById(R.id.recstatusPesanan)
         val cardRiwayat : CardView = itemView.findViewById(R.id.recCardRiwayat)
@@ -32,8 +31,9 @@ class RiwayatAdapter(private val context: Context, private var ListPesanan: Muta
         holder.namaPembeli.text = ListPesanan[position].namaUser
         holder.orderID.text = ListPesanan[position].orderID
         holder.namaKereta.text = ListPesanan[position].namaKereta
-        holder.namaGerbong.text = ListPesanan[position].Gerbong
-        holder.nomorGerbong.text = ListPesanan[position].nomorGerbong
+        val nomorgerbong = ListPesanan[position].nomorGerbong
+        val gerbong = ListPesanan[position].Gerbong
+        holder.namaGerbong.text = "$gerbong - $nomorgerbong"
         holder.nomorKursi.text = ListPesanan[position].nomorKursi
         holder.status.text = ListPesanan[position].status
 

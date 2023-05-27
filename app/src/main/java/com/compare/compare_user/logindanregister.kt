@@ -84,7 +84,7 @@ class logindanregister : AppCompatActivity() {
 
                         }
                 } else {
-                    Toast.makeText(this, "${it.exception?.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Email or Password incorrect, please try again!", Toast.LENGTH_SHORT).show()
                 }
             }
     }

@@ -30,187 +30,189 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@color/white"
-            android:padding="30dp">
-
-            <ImageView
-                android:id="@+id/fotobawaan"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@drawable/fotoprofil"
-                android:visibility="gone"/>
-
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:backgroundTint="@color/black"
-                android:text="REGISTER"
-                android:textAlignment="center"
-                android:fontFamily="monospace"
-                android:textColor="@color/black"
-                android:textSize="30sp"
-                android:textStyle="bold" />
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:padding="30dp">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Nama Lengkap"
-                app:boxStrokeWidth="0dp"
-                app:boxBackgroundColor="@color/white"
-                android:layout_marginTop="15dp"
-                app:startIconDrawable="@drawable/ic_baseline_person_24">
+                <ImageView
+                    android:id="@+id/fotobawaan"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/fotoprofil"
+                    android:visibility="gone" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edt_nama_register"
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_rounded_trans"
-                    android:inputType="textCapWords"
-                    android:textAllCaps="true" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_gravity="center"
+                    android:backgroundTint="@color/black"
+                    android:fontFamily="monospace"
+                    android:text="REGISTER"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Nomor Handphone"
-                app:boxStrokeWidth="0dp"
-                app:boxBackgroundColor="@color/white"
-                android:layout_marginTop="10dp"
-                app:startIconDrawable="@drawable/ic_baseline_smartphone_24">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edt_nomorhp_register"
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_rounded_trans"
-                    android:inputType="number" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_marginTop="15dp"
+                    android:hint="Nama Lengkap"
+                    app:boxBackgroundColor="@color/white"
+                    app:boxStrokeWidth="0dp"
+                    app:startIconDrawable="@drawable/ic_baseline_person_24">
 
-            <TextView
-                android:id="@+id/txt_gender_register"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Gender"
-                android:textSize="18dp"
-                android:textColor="@color/black"
-                android:drawableLeft="@drawable/ic_baseline_people_24"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="5dp"/>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edt_nama_register"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_rounded_trans"
+                        android:inputType="textCapWords"
+                        android:textAllCaps="true" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-            <RadioGroup
-                android:id="@+id/rg_gender1_register"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:background="@drawable/bg_rounded_trans"
-                android:orientation="horizontal">
-                <RadioButton
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:hint="Nomor Handphone"
+                    app:boxBackgroundColor="@color/white"
+                    app:boxStrokeWidth="0dp"
+                    app:startIconDrawable="@drawable/ic_baseline_smartphone_24">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edt_nomorhp_register"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_rounded_trans"
+                        android:inputType="number" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/txt_gender_register"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="10dp"
+                    android:drawableLeft="@drawable/ic_baseline_people_24"
+                    android:text="Gender"
+                    android:textColor="@color/black"
+                    android:textSize="18dp" />
+
+                <RadioGroup
+                    android:id="@+id/rg_gender1_register"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Pria"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"/>
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Wanita"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"/>
-            </RadioGroup>
+                    android:layout_marginTop="2dp"
+                    android:background="@drawable/bg_rounded_trans"
+                    android:orientation="horizontal">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Email"
-                app:boxStrokeWidth="0dp"
-                app:boxBackgroundColor="@color/white"
-                android:layout_marginTop="10dp"
-                app:startIconDrawable="@drawable/ic_baseline_email_24">
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Pria"
+                        android:textColor="@color/black"
+                        android:textStyle="bold" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edt_email_register"
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:text="Wanita"
+                        android:textColor="@color/black"
+                        android:textStyle="bold" />
+                </RadioGroup>
+
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_rounded_trans"
-                    android:inputType="textEmailAddress"/>
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_marginTop="10dp"
+                    android:hint="Email"
+                    app:boxBackgroundColor="@color/white"
+                    app:boxStrokeWidth="0dp"
+                    app:startIconDrawable="@drawable/ic_baseline_email_24">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="3dp"
-                android:text="ex : destanuari@gmail.com"
-                android:textSize="10dp"
-                android:textColor="#F10707" />
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edt_email_register"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_rounded_trans"
+                        android:inputType="textEmailAddress" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Password"
-                app:boxBackgroundColor="@color/white"
-                android:layout_marginTop="10dp"
-                app:boxStrokeWidth="0dp"
-                app:startIconDrawable="@drawable/ic_baseline_password_24"
-                app:passwordToggleEnabled="true">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edt_password_register"
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_rounded_trans"
-                    android:inputType="textPassword"/>
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_marginLeft="3dp"
+                    android:text="ex : destanuari@gmail.com"
+                    android:textColor="#F10707"
+                    android:textSize="10dp" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:hint="Password"
+                    app:boxBackgroundColor="@color/white"
+                    app:boxStrokeWidth="0dp"
+                    app:passwordToggleEnabled="true"
+                    app:startIconDrawable="@drawable/ic_baseline_password_24">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edt_password_register"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_rounded_trans"
+                        android:inputType="textPassword" />
+                </com.google.android.material.textfield.TextInputLayout>
 
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="3dp"
-                android:text="note : panjang password tidak boleh kurang dari 6"
-                android:textSize="10dp"
-                android:textColor="#F10707" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="3dp"
+                    android:text="note : panjang password tidak boleh kurang dari 6"
+                    android:textColor="#F10707"
+                    android:textSize="10dp" />
 
-            <Button
-                android:id="@+id/btn_register"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:backgroundTint="@color/purple_700"
-                android:text="Register"
-                android:textColor="@color/white"/>
+                <Button
+                    android:id="@+id/btn_register"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:backgroundTint="@color/purple_700"
+                    android:text="Register"
+                    android:textColor="@color/white" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:backgroundTint="@color/black"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                android:textSize="12dp"
-                android:text="SUDAH MEMPUNYAI AKUN?"
-                android:textAlignment="center"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:backgroundTint="@color/black"
+                    android:text="ALREADY HAVE ACCOUNT?"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="12dp"
+                    android:textStyle="bold" />
 
-            <!--            jika ingin balik ke halaman login-->
+                <!--            jika ingin balik ke halaman login-->
 
-            <TextView
-                android:id="@+id/tv_to_login"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/black"
-                android:text="LOGIN"
-                android:textSize="20dp"
-                android:textAlignment="center"
-                android:textColor="@color/black"
-                android:textStyle="bold"/>
+                <TextView
+                    android:id="@+id/tv_to_login"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/black"
+                    android:text="LOGIN"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
 
-        </LinearLayout>
+            </LinearLayout>
 
         </androidx.core.widget.NestedScrollView>
 
