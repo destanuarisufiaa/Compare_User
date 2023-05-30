@@ -51,8 +51,7 @@ class DetailActivity : AppCompatActivity() {
 
     private fun addToCart() {
         val uid = FirebaseAuth.getInstance().currentUser?.uid.toString().trim()
-        val docID = FirebaseFirestore.getInstance().collection("users").document(uid!!).collection("Cart").document(
-            dokumenID)
+        val docID = FirebaseFirestore.getInstance().collection("users").document(uid!!).collection("Cart").document(dokumenID)
         docID.get().addOnSuccessListener {
             if(it.exists()){
                 val cartModel = it.toObject(CartModel::class.java)
