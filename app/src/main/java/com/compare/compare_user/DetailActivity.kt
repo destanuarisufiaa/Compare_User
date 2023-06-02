@@ -17,28 +17,20 @@ import org.greenrobot.eventbus.EventBus
 class DetailActivity : AppCompatActivity() {
     var imageURL = ""
     private lateinit var dokumenID:String
-    private lateinit var detailTittle : TextView
-    private lateinit var detailHarga : TextView
-    private lateinit var detailDesc : TextView
-    private lateinit var detailImage : ImageView
     private lateinit var binding: ActivityDetailBinding
+    private lateinit var price : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        detailTittle = findViewById(R.id.detailTittle)
-        detailHarga = findViewById(R.id.detailHarga)
-        detailDesc = findViewById(R.id.detailDesc)
-        detailImage = findViewById(R.id.detailImage)
-
-
         val bundle = intent.extras
         if (bundle != null) {
             dokumenID = bundle.getString("namaMenu").toString().trim()
             binding.detailTittle.text = bundle.getString("namaMenu")
             val harga = bundle.getString("Harga")
+            price = harga.toString()
             binding.detailHarga.text = "Rp. $harga"
             binding.detailDesc.text = bundle.getString("Desc")
             imageURL = bundle.getString("Image")!!
@@ -50,14 +42,14 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun addToCart() {
+        val namaMenu = binding.detailTittle.text
         val uid = FirebaseAuth.getInstance().currentUser?.uid.toString().trim()
-        val docID = FirebaseFirestore.getInstance().collection("users").document(uid!!).collection("Cart").document(dokumenID)
+        val docID = FirebaseFirestore.getInstance().collection("users").document(uid!!).collection("Cart").document(namaMenu.toString().trim())
         docID.get().addOnSuccessListener {
             if(it.exists()){
                 val cartModel = it.toObject(CartModel::class.java)
                 cartModel!!.quantity = cartModel!!.quantity+1
                 val updateData: MutableMap<String, Any> = HashMap()
-//                cartModel!!.quantity = cartModel!!.quantity+1
                 updateData["quantity"] = cartModel!!.quantity
                 updateData["totalPrice"] = cartModel!!.quantity * cartModel.price!!.toFloat()
 
@@ -72,21 +64,19 @@ class DetailActivity : AppCompatActivity() {
 
             } else{
                 val cartModel = CartModel()
-                cartModel.key = dokumenID.trim()
-                cartModel.name = detailTittle.text.toString().trim()
+                cartModel.key = binding.detailTittle.toString().trim()
+                cartModel.name = binding.detailTittle.text.toString().trim()
                 cartModel.image = imageURL.trim()
-                cartModel.price = detailHarga.text.toString().trim()
+                cartModel.price = binding.detailHarga.text.toString().trim()
                 cartModel.quantity = 1
-                cartModel.totalPrice = detailHarga.text!!.toString().toFloat()
+                cartModel.totalPrice = price.toFloat()
 
                 docID.set(cartModel)
                     .addOnSuccessListener {
                         EventBus.getDefault().postSticky(UpdateCartEvent())
-//                        cartListener.onLoadCartfailed("Success add to cart")
                         Toast.makeText(this,"Berhasil Menambahkan ke Keranjang",Toast.LENGTH_SHORT).show()
                     }
                     .addOnFailureListener{
-//                        cartListener.onLoadCartfailed(it.message)
                         Toast.makeText(this,"${it.message}", Toast.LENGTH_SHORT).show()
                     }
             }
