@@ -42,11 +42,15 @@ class form_pemesanan : AppCompatActivity(), TransactionFinishedCallback {
         binding = ActivityFormPemesananBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        //inisialisasi midtrans
         SdkUIFlowBuilder.init()
+            //set Key Client dari dashboard midtrans
             .setClientKey("SB-Mid-client-Qe9BaZtS-PQZTOUm") //Sandbox
 //            .setClientKey("Mid-client-MzngfJOpNWjN8d50") //Production
             .setContext(applicationContext)
+            //mengembalikan segala hasil transaksi ke activity form_pemesanan
             .setTransactionFinishedCallback(this)
+            //
             .setMerchantBaseUrl("https://eatrainapp.000webhostapp.com/index.php/") //Sandbox
 //            .setMerchantBaseUrl("https://eatrainapp.000webhostapp.com/production/index.php/") //Production
             .enableLog(true)
@@ -90,9 +94,13 @@ class form_pemesanan : AppCompatActivity(), TransactionFinishedCallback {
         fetchDataForm()
 
         binding.btnBayar.setOnClickListener {
+            //inisialisasi array untuk itemDetails yang akan di checkout
             var itemDetails = ArrayList<com.midtrans.sdk.corekit.models.ItemDetails>()
+            //inisialisasi firebase authentication
             val uid = FirebaseAuth.getInstance().currentUser?.uid.toString().trim()
+            //inisialisasi cart pada firestore
             val dataMidtrans = FirebaseFirestore.getInstance().collection("users").document(uid!!).collection("Cart")
+            //mengambil seluruh cart pada firestore
             dataMidtrans.get()
                 .addOnSuccessListener { documents ->
                     for (document in documents){
@@ -102,17 +110,17 @@ class form_pemesanan : AppCompatActivity(), TransactionFinishedCallback {
                         val jumlah = document.get("quantity").toString().toInt()
                         val namaaa = document.getString("name").toString()
 
-
                         val detail = com.midtrans.sdk.corekit.models.ItemDetails("$namaItemId", total, jumlah, "$namaaa")
                         itemDetails.add(detail)
                     }
                 }
 
+            //inisialisasi transaksi request
             val transactionRequest = TransactionRequest("Eatrain-App-" + System.currentTimeMillis().toString()+"", totall.toDouble())
 
             uiKitDetails(transactionRequest, nama.trim(), phone, email)
             transactionRequest.itemDetails = itemDetails
-//            MidtransSDK.getInstance().setTransactionRequest(transactionRequest("101",2000, 1, "John"))
+            //inisialisasi UI Pembayaran
             MidtransSDK.getInstance().startPaymentUiFlow(this)
             MidtransSDK.getInstance().transactionRequest = transactionRequest
         }
@@ -148,7 +156,6 @@ class form_pemesanan : AppCompatActivity(), TransactionFinishedCallback {
     }
 
     private fun simpandata(orderID:String) {
-
         val cekGerbongRadioButtonId = rg_gerbong.checkedRadioButtonId
         val listGerbongKereta = findViewById<RadioButton>(cekGerbongRadioButtonId)
         hasilGerbongKereta = "${listGerbongKereta.text}"
@@ -232,9 +239,6 @@ class form_pemesanan : AppCompatActivity(), TransactionFinishedCallback {
             //memindahkan pesanan ke riwayat dan menghapus cart
             val orderID = result.response?.transactionId
             simpandata(orderID.toString())
-
-//            val intent = Intent(applicationContext, MainActivity::class.java)
-//            startActivity(intent)
             Toast.makeText(this, "Pesanan Telah Dibuat", Toast.LENGTH_LONG).show()
         }
 

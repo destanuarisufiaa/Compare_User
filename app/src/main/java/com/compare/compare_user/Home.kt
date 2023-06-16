@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Adapter
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat.recreate
 import androidx.fragment.app.Fragment
@@ -14,18 +16,22 @@ import com.compare.compare_user.databinding.FragmentHomeBinding
 import com.compare.compare_user.eventbus.UpdateCartEvent
 import com.compare.compare_user.listener.ICartLoadListener
 import com.compare.compare_user.model.CartModel
+import com.google.common.collect.Collections2.filter
+import com.google.common.collect.Multisets.filter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import java.util.Locale.filter
 
 class Home : Fragment(), ICartLoadListener {
 
     private lateinit var binding: FragmentHomeBinding
     private lateinit var idgaes : String
     private lateinit var cartLoadListener: ICartLoadListener
+    private lateinit var myAdapter : MyAdapter
 
     override fun onStart() {
         super.onStart()
@@ -99,8 +105,22 @@ class Home : Fragment(), ICartLoadListener {
                 for (document in documents) {
                     idgaes = document.id
                     val menu = documents.toObjects(Menu::class.java)
-                    binding.recyclerView.adapter =
-                        context?.let { MyAdapter(it, menu, cartLoadListener) }
+                    myAdapter =
+                        context?.let { MyAdapter(it, menu, cartLoadListener) }!!
+                    binding.recyclerView.adapter = myAdapter
+
+                    //searchView
+                    binding.searchView.setOnQueryTextListener(object:androidx.appcompat.widget.SearchView.OnQueryTextListener{
+                        override fun onQueryTextSubmit(query: String?): Boolean {
+                            return false
+                        }
+
+                        override fun onQueryTextChange(query: String?): Boolean {
+                            myAdapter.filter.filter(query)
+                            return false
+                        }
+
+                    })
                 }
             }
             .addOnFailureListener {

@@ -2,17 +2,28 @@ package com.compare.compare_user
 
 import android.Manifest
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.drawable.Drawable
+import android.graphics.drawable.LayerDrawable
+import android.graphics.drawable.ShapeDrawable
+import android.graphics.drawable.shapes.RoundRectShape
 import android.net.Uri
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
+import androidx.core.app.ActivityCompat.finishAffinity
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.compare.compare_user.databinding.FragmentHomeBinding
@@ -76,11 +87,7 @@ class ProfilPengguna : Fragment() {
                 }
             }
         btn_logout.setOnClickListener {
-            firebaseAuth.signOut()
-            val intent = Intent(context, logindanregister::class.java).also {
-                it.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            }
-            startActivity(intent)
+            showLogoutConfirmationDialog()
 
         }
 
@@ -100,6 +107,83 @@ class ProfilPengguna : Fragment() {
         binding.btnChangePass.setOnClickListener {
             changePass()
         }
+    }
+
+    private fun showLogoutConfirmationDialog() {
+        val alertDialogBuilder: AlertDialog.Builder = AlertDialog.Builder(requireContext())
+        alertDialogBuilder.setTitle("Konfirmasi Keluar")
+        alertDialogBuilder.setMessage("Apakah Anda yakin ingin log out?")
+
+        val positiveText = "Logout"
+        val neutralText = "Keluar Aplikasi"
+        val negativeText = "Batal"
+
+        // Membuat SpannableString untuk menerapkan warna pada teks pilihan
+        val spannablePositive = SpannableString(positiveText)
+        spannablePositive.setSpan(
+            ForegroundColorSpan(Color.RED),
+            0,
+            positiveText.length,
+            0
+        )
+
+        val spannableNeutral = SpannableString(neutralText)
+        spannableNeutral.setSpan(
+            ForegroundColorSpan(Color.parseColor("#FF6200EE")),
+            0,
+            neutralText.length,
+            0
+        )
+
+        val spannableNegative = SpannableString(negativeText)
+        spannableNegative.setSpan(
+            ForegroundColorSpan(Color.parseColor("#04cc18")),
+            0,
+            negativeText.length,
+            0
+        )
+
+        alertDialogBuilder.setPositiveButton(spannablePositive) { dialog: DialogInterface, _: Int ->
+            // Tindakan yang akan dilakukan jika tombol "Ya" ditekan
+            FirebaseAuth.getInstance().signOut()
+            val intent = Intent(context, logindanregister::class.java)
+            startActivity(intent)
+        }
+
+        alertDialogBuilder.setNeutralButton(spannableNeutral) { dialog: DialogInterface, _: Int ->
+            finishAffinity(requireActivity())
+            dialog.dismiss()
+        }
+
+        alertDialogBuilder.setNegativeButton(spannableNegative) { dialog: DialogInterface, _: Int ->
+            // Tindakan yang akan dilakukan jika tombol "Batal" ditekan
+            dialog.dismiss()
+        }
+
+        // Membuat bentuk dengan radius 20dp dan background berwarna putih
+        val radius = resources.getDimensionPixelSize(R.dimen.dialog_corner_radius).toFloat()
+        val outerRadii = floatArrayOf(radius, radius, radius, radius, radius, radius, radius, radius)
+        val shapeDrawable = ShapeDrawable(RoundRectShape(outerRadii, null, null))
+        shapeDrawable.paint.color = Color.WHITE
+        shapeDrawable.paint.style = Paint.Style.FILL
+
+        // Membuat drawable dengan stroke berwarna hijau
+        val strokeWidth = 10f
+        val strokeColor = Color.parseColor("#FF3700B3")
+        val strokeDrawable = ShapeDrawable(RoundRectShape(outerRadii, null, null))
+        strokeDrawable.paint.color = Color.TRANSPARENT
+        strokeDrawable.paint.style = Paint.Style.STROKE
+        strokeDrawable.paint.strokeWidth = strokeWidth
+        strokeDrawable.paint.color = strokeColor
+
+        // Menggabungkan background dan stroke menjadi satu drawable
+        val layers: Array<Drawable> = arrayOf(shapeDrawable, strokeDrawable)
+        val layerDrawable = LayerDrawable(layers)
+
+        // Mengatur background drawable pada dialog
+        val alertDialog: AlertDialog = alertDialogBuilder.create()
+        alertDialog.window?.setBackgroundDrawable(layerDrawable)
+        alertDialog.show()
     }
 
     private fun changePass() {

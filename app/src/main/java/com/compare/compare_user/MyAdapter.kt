@@ -2,13 +2,11 @@ package com.compare.compare_user
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -21,7 +19,9 @@ import org.greenrobot.eventbus.EventBus
 
 private lateinit var IDgaes:String
 
-class MyAdapter (private val context: Context, private var MenuList: MutableList<Menu>, private val cartListener:ICartLoadListener) : RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
+class MyAdapter (private val context: Context, private var MenuList: MutableList<Menu>, private val cartListener:ICartLoadListener) : RecyclerView.Adapter<MyAdapter.MyViewHolder>(), Filterable {
+
+    private var filteredList = MenuList.toMutableList()
 
     class MyViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
         val judulMenu : TextView = itemView.findViewById(R.id.recTittle)
@@ -40,14 +40,14 @@ class MyAdapter (private val context: Context, private var MenuList: MutableList
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        Glide.with(context).load(MenuList[position].Foto).into(holder.fotoMenu)
-        holder.judulMenu.text = MenuList[position].namaMenu
-        holder.HargaMenu.text = MenuList[position].Harga
-        holder.Desc.text = MenuList[position].Desc
-        holder.documentID.text = MenuList[position].docID
+        Glide.with(context).load(filteredList[position].Foto).into(holder.fotoMenu)
+        holder.judulMenu.text = filteredList[position].namaMenu
+        holder.HargaMenu.text = filteredList[position].Harga
+        holder.Desc.text = filteredList[position].Desc
+        holder.documentID.text = filteredList[position].docID
 
         holder.cart.setOnClickListener {
-            IDgaes = MenuList[holder.adapterPosition].namaMenu.toString().trim()
+            IDgaes = filteredList[holder.adapterPosition].namaMenu.toString().trim()
 
             val uid = FirebaseAuth.getInstance().currentUser?.uid.toString().trim()
             val docID = FirebaseFirestore.getInstance().collection("users").document(uid!!).collection("Cart").document(
@@ -72,12 +72,12 @@ class MyAdapter (private val context: Context, private var MenuList: MutableList
 
                 } else{
                     val cartModel = CartModel()
-                    cartModel.key = MenuList[position].docID
-                    cartModel.name = MenuList[position].namaMenu
-                    cartModel.image = MenuList[position].Foto
-                    cartModel.price = MenuList[position].Harga
+                    cartModel.key = filteredList[position].docID
+                    cartModel.name = filteredList[position].namaMenu
+                    cartModel.image = filteredList[position].Foto
+                    cartModel.price = filteredList[position].Harga
                     cartModel.quantity = 1
-                    cartModel.totalPrice = MenuList[position].Harga!!.toFloat()
+                    cartModel.totalPrice = filteredList[position].Harga!!.toFloat()
 
                     docID.set(cartModel)
                         .addOnSuccessListener {
@@ -94,16 +94,37 @@ class MyAdapter (private val context: Context, private var MenuList: MutableList
 
         holder.card.setOnClickListener {
             val intent = Intent(context, DetailActivity::class.java)
-            intent.putExtra("Image", MenuList[holder.adapterPosition].Foto)
-            intent.putExtra("namaMenu", MenuList[holder.adapterPosition].namaMenu)
-            intent.putExtra("Harga", MenuList[holder.adapterPosition].Harga)
-            intent.putExtra("Desc", MenuList[holder.adapterPosition].Desc)
-            intent.putExtra("docID", MenuList[holder.adapterPosition].docID)
+            intent.putExtra("Image", filteredList[holder.adapterPosition].Foto)
+            intent.putExtra("namaMenu", filteredList[holder.adapterPosition].namaMenu)
+            intent.putExtra("Harga", filteredList[holder.adapterPosition].Harga)
+            intent.putExtra("Desc", filteredList[holder.adapterPosition].Desc)
+            intent.putExtra("docID", filteredList[holder.adapterPosition].docID)
             context.startActivity(intent)
         }
     }
 
-    override fun getItemCount(): Int {
-        return MenuList.size
+
+    override fun getItemCount(): Int = filteredList.size
+
+    override fun getFilter(): Filter {
+        return object : Filter() {
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+                val filteredResults = if (constraint.isNullOrBlank()) {
+                    MenuList
+                } else {
+                    MenuList.filter { it.namaMenu?.contains(constraint, true)!! }
+                }
+                //ngecek hasil di log
+                Log.d("MyAdapter","Filtered Result: $filteredResults")
+                //mengembalikan nilai filter ke dalam values
+                return FilterResults().apply { values = filteredResults }
+            }
+
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+                filteredList.clear()
+                filteredList.addAll(results?.values as MutableList<Menu>)
+                notifyDataSetChanged()
+            }
+        }
     }
 }

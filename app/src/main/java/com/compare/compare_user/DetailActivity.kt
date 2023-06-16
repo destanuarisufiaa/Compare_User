@@ -67,7 +67,7 @@ class DetailActivity : AppCompatActivity() {
                 cartModel.key = binding.detailTittle.toString().trim()
                 cartModel.name = binding.detailTittle.text.toString().trim()
                 cartModel.image = imageURL.trim()
-                cartModel.price = binding.detailHarga.text.toString().trim()
+                cartModel.price = price.trim()
                 cartModel.quantity = 1
                 cartModel.totalPrice = price.toFloat()
 
