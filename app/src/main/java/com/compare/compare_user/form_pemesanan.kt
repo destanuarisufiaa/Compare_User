@@ -9,6 +9,7 @@ import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.compare.compare_user.databinding.ActivityFormPemesananBinding
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthActionCodeException
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -25,7 +26,7 @@ import kotlinx.android.synthetic.main.activity_form_pemesanan.*
 class form_pemesanan : AppCompatActivity(), TransactionFinishedCallback {
 
     private lateinit var binding: ActivityFormPemesananBinding
-    private val db = Firebase.firestore
+    private lateinit var db : FirebaseFirestore
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var namaKereta : EditText
     private lateinit var noGerbong : EditText
@@ -41,6 +42,8 @@ class form_pemesanan : AppCompatActivity(), TransactionFinishedCallback {
         super.onCreate(savedInstanceState)
         binding = ActivityFormPemesananBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        db = FirebaseFirestore.getInstance()
 
         //inisialisasi midtrans
         SdkUIFlowBuilder.init()
@@ -78,7 +81,7 @@ class form_pemesanan : AppCompatActivity(), TransactionFinishedCallback {
         docRef.get()
             .addOnSuccessListener { document ->
                 if (document != null) {
-                    val name = document.getString("name")
+                    val name = document.getString("name").toString().trim()
                     ShowNamaPemesan.text = "$name"
                     nama= "$name"
                     val nomor = document.getString("phone")
@@ -108,7 +111,7 @@ class form_pemesanan : AppCompatActivity(), TransactionFinishedCallback {
                         val total = document.getString("price").toString().toDouble()
 //                        val totalharga = document.getString("totalPrice").toString().toDouble()
                         val jumlah = document.get("quantity").toString().toInt()
-                        val namaaa = document.getString("name").toString()
+                        val namaaa = document.getString("name").toString().trim()
 
                         val detail = com.midtrans.sdk.corekit.models.ItemDetails("$namaItemId", total, jumlah, "$namaaa")
                         itemDetails.add(detail)

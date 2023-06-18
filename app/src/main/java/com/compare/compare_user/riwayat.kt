@@ -41,6 +41,7 @@ class riwayat : Fragment() {
             .addOnSuccessListener {
                val nama = it.getString("name").toString()
 
+
                 //mengambil riwayat
                 val listPesananRiwayat = FirebaseFirestore.getInstance().collection("pesanan").whereEqualTo("namaUser", "$nama" )
                 listPesananRiwayat.addSnapshotListener { snapshots, e ->

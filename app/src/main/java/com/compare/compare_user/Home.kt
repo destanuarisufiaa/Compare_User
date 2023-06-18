@@ -3,6 +3,7 @@ package com.compare.compare_user
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,7 +32,7 @@ class Home : Fragment(), ICartLoadListener {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var idgaes : String
     private lateinit var cartLoadListener: ICartLoadListener
-    private lateinit var myAdapter : MyAdapter
+    private var myAdapter : MyAdapter? = null
 
     override fun onStart() {
         super.onStart()
@@ -105,8 +106,7 @@ class Home : Fragment(), ICartLoadListener {
                 for (document in documents) {
                     idgaes = document.id
                     val menu = documents.toObjects(Menu::class.java)
-                    myAdapter =
-                        context?.let { MyAdapter(it, menu, cartLoadListener) }!!
+                    myAdapter = context?.let { MyAdapter(it, menu, cartLoadListener) }
                     binding.recyclerView.adapter = myAdapter
 
                     //searchView
@@ -116,7 +116,7 @@ class Home : Fragment(), ICartLoadListener {
                         }
 
                         override fun onQueryTextChange(query: String?): Boolean {
-                            myAdapter.filter.filter(query)
+                            myAdapter!!.filter.filter(query)
                             return false
                         }
 
@@ -124,7 +124,7 @@ class Home : Fragment(), ICartLoadListener {
                 }
             }
             .addOnFailureListener {
-
+                Log.w("error", it)
             }
     }
 

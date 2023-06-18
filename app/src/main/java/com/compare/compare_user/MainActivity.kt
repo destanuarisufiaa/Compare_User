@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import com.compare.compare_user.databinding.ActivityMainBinding
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -18,6 +19,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding : ActivityMainBinding
     private lateinit var ringtone: Ringtone
     private var isNotificationPlayed = false
+    private var nama:String? = null
+    private var previousStatus: String? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +51,16 @@ class MainActivity : AppCompatActivity() {
         }
         // Mengambil referensi dari Firestore
         val db = Firebase.firestore
-        val pesananRef = db.collection("pesanan")
+        val uid = FirebaseAuth.getInstance().currentUser?.uid.toString()
+        val fstore = db.collection("users").document(uid).collection("Profil").document(uid).get()
+            fstore.addOnSuccessListener {
+                nama = it.getString("name").toString().trim()
+                Log.w("nama", nama!!)
+            }
+                .addOnFailureListener {
+                    Log.w("gagal", it)
+                }
+        val pesananRef = FirebaseFirestore.getInstance().collection("pesanan")
 
         // Mendefinisikan uri dari file audio
         val ringtonePersiapanUri = Uri.parse("android.resource://com.compare.compare_user/" + R.raw.disiapkan)
@@ -64,24 +77,34 @@ class MainActivity : AppCompatActivity() {
             // Memastikan bahwa ada data yang ditemukan
             if (snapshot != null && !snapshot.isEmpty) {
                 for (doc in snapshot.documents) {
-                    val statusPesanan = doc.getString("status")
+                    val namaUser = doc.getString("namaUser")
+                    if (namaUser == nama){
+                        val statusPesanan = doc.getString("status")
+                        // Memeriksa apakah status pesanan berubah
+                        if (statusPesanan != previousStatus) {
+                            // Memeriksa status pesanan dan memainkan ringtone yang sesuai
+                            when (statusPesanan) {
+                                "PERSIAPAN" -> {
+                                    if (!isNotificationPlayed) {
+                                        ringtone = RingtoneManager.getRingtone(applicationContext, ringtonePersiapanUri)
+                                        ringtone.play()
+                                        isNotificationPlayed = true
+                                    }else{
+                                        ringtone = RingtoneManager.getRingtone(applicationContext, ringtoneAntarUri)
+                                        ringtone.stop()}
 
-                    // Memeriksa status pesanan dan memainkan ringtone yang sesuai
-                    when (statusPesanan) {
-                        "PERSIAPAN" -> {
-                            if (!isNotificationPlayed) {
-                                ringtone = RingtoneManager.getRingtone(applicationContext, ringtonePersiapanUri)
-                                ringtone.play()
-                                isNotificationPlayed = true
-                            }
-                        }
-                        "ANTAR" -> {
-                            if (!isNotificationPlayed) {
-                                ringtone = RingtoneManager.getRingtone(applicationContext, ringtoneAntarUri)
-                                ringtone.play()
-                                isNotificationPlayed = true
-                            }
-                        }
+                                }
+                                "ANTAR" -> {
+                                    if (!isNotificationPlayed) {
+                                        ringtone = RingtoneManager.getRingtone(applicationContext, ringtoneAntarUri)
+                                        ringtone.play()
+                                        isNotificationPlayed = true
+
+                                    }else{
+                                        ringtone = RingtoneManager.getRingtone(applicationContext, ringtoneAntarUri)
+                                        ringtone.stop()}
+
+                                }
 //                        "SELESAI" -> {
 //                            if (!isNotificationPlayed) {
 //                                ringtone = RingtoneManager.getRingtone(applicationContext, ringtoneSelesaiUri)
@@ -89,12 +112,16 @@ class MainActivity : AppCompatActivity() {
 //                                isNotificationPlayed = true
 //                            }
 //                        }
-                        else -> {
-                            if (isNotificationPlayed) {
-                                ringtone.stop()
-                                isNotificationPlayed = false
+                                else -> {
+                                    if (isNotificationPlayed) {
+                                        ringtone.stop()
+                                        isNotificationPlayed = false
+                                    }
+                                }
+
                             }
                         }
+                        previousStatus = statusPesanan
                     }
                 }
             } else {

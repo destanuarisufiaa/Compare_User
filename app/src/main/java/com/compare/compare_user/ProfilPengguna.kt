@@ -61,7 +61,6 @@ class ProfilPengguna : Fragment() {
         val ShowPhone = view.findViewById<TextView>(R.id.txt_nomor)
         val ShowGender = view.findViewById<TextView>(R.id.txt_gender)
         val ShowEmail = view.findViewById<TextView>(R.id.txt_email)
-        val statuss = view.findViewById<TextView>(R.id.statuss)
         val foto = view.findViewById<ImageView>(R.id.uploadimage_user)
 
 
@@ -83,7 +82,7 @@ class ProfilPengguna : Fragment() {
                             .load(imageURL)
                             .into(foto)
 
-                    statuss.text = "Succes dapat data user $userid"
+//                    statuss.text = "Succes dapat data user ${userid.toString()}"
                 }
             }
         btn_logout.setOnClickListener {
