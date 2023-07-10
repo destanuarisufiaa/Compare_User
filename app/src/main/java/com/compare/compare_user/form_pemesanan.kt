@@ -45,6 +45,8 @@ class form_pemesanan : AppCompatActivity(), TransactionFinishedCallback {
 
         db = FirebaseFirestore.getInstance()
 
+       //MIDTRANS
+
         //inisialisasi midtrans
         SdkUIFlowBuilder.init()
             //set Key Client dari dashboard midtrans
@@ -53,7 +55,8 @@ class form_pemesanan : AppCompatActivity(), TransactionFinishedCallback {
             .setContext(applicationContext)
             //mengembalikan segala hasil transaksi ke activity form_pemesanan
             .setTransactionFinishedCallback(this)
-            //
+            //web untuk menampilkan UI pembayaran midtrans
+            //konten web ini diambil dari midtrans, hanya menampung variabel yang dikirim dalam pesanan
             .setMerchantBaseUrl("https://eatrainapp.000webhostapp.com/index.php/") //Sandbox
 //            .setMerchantBaseUrl("https://eatrainapp.000webhostapp.com/production/index.php/") //Production
             .enableLog(true)
@@ -81,6 +84,7 @@ class form_pemesanan : AppCompatActivity(), TransactionFinishedCallback {
         docRef.get()
             .addOnSuccessListener { document ->
                 if (document != null) {
+                    //menampilkan nama pemesan diatas form pemesanan
                     val name = document.getString("name").toString().trim()
                     ShowNamaPemesan.text = "$name"
                     nama= "$name"
@@ -97,6 +101,8 @@ class form_pemesanan : AppCompatActivity(), TransactionFinishedCallback {
         fetchDataForm()
 
         binding.btnBayar.setOnClickListener {
+            //MIDTRANS
+
             //inisialisasi array untuk itemDetails yang akan di checkout
             var itemDetails = ArrayList<com.midtrans.sdk.corekit.models.ItemDetails>()
             //inisialisasi firebase authentication
@@ -118,6 +124,8 @@ class form_pemesanan : AppCompatActivity(), TransactionFinishedCallback {
                     }
                 }
 
+            //MIDTRANS
+
             //inisialisasi transaksi request
             val transactionRequest = TransactionRequest("Eatrain-App-" + System.currentTimeMillis().toString()+"", totall.toDouble())
 
@@ -129,6 +137,9 @@ class form_pemesanan : AppCompatActivity(), TransactionFinishedCallback {
         }
     }
 
+    //MIDTRANS
+
+    //Fungsi untuk informasi detail pembeli
     fun uiKitDetails(transactionRequest: TransactionRequest, name:String, HP:String, email2:String){
         val customerDetails = CustomerDetails()
         customerDetails.customerIdentifier = name
@@ -159,18 +170,26 @@ class form_pemesanan : AppCompatActivity(), TransactionFinishedCallback {
     }
 
     private fun simpandata(orderID:String) {
+        //inisialisasi variabal radio grup gerbong yang dipilih
         val cekGerbongRadioButtonId = rg_gerbong.checkedRadioButtonId
+        //mengambil id dari radio button yang dipilih
         val listGerbongKereta = findViewById<RadioButton>(cekGerbongRadioButtonId)
+        //mengambil teks dari radioButton lalu memasukkannya pada variabel hasilGerbongKereta
         hasilGerbongKereta = "${listGerbongKereta.text}"
 
+
         val gerbong = hasilGerbongKereta.trim()
+        //mengambil nilai inputan edit text pada masing-masing variabel
         val inputKereta = namaKereta.text.toString().trim()
         val inputGerbong = noGerbong.text.toString().trim()
         val inputKursi = noKursi.text.toString().trim()
+
+        //jika salah satu data belum diisi, maka terdapat toast berikut
         if (inputKereta=="" || inputGerbong=="" || inputKursi == "" || gerbong == ""){
             Toast.makeText(this, "Mohon isi semua form yang tersedia terlebih dahulu", Toast.LENGTH_LONG).show()
         }
         else {
+            //jika semua data telah diisi
             val dbupdate = FirebaseFirestore.getInstance()
             val pesanan = hashMapOf<String, Any>(
                 "namaUser" to nama,
@@ -182,22 +201,26 @@ class form_pemesanan : AppCompatActivity(), TransactionFinishedCallback {
             )
             val auth = FirebaseAuth.getInstance()
             val uid = auth.currentUser?.uid
+            //maka akan menyimpan data pada koleksi pesanan dengan dokumen id (orderID)
             dbupdate.collection("pesanan").document(orderID)
                 .get()
                 .addOnSuccessListener {
+                    //jika terdapat pesanan dengan order ID yang sama , maka menampilkan toast berikut
                     if (it.exists()) {
                         Toast.makeText(
                             this,
-                            "Mohon selesaikan pesanan sebelumnya terlebih dahulu",
+                            "Terdapat gangguan, mohon coba lagi dalam beberapa detik",
                             Toast.LENGTH_SHORT
                         ).show()
                     } else {
-//                        dbupdate.collection("pesanan").document("identitas").collection(orderID)
+                        //jika order ID berbeda
                         dbupdate.collection("pesanan").document(orderID)
+                            //maka akan membuat pesanan yang sudah di definisikan sebelumnya pada variabel "pesanan"
                             .set(pesanan)
+                            //jika sukses
                             .addOnSuccessListener { documentReference ->
                                 //pindah ke riwayat
-                                val intent = Intent(applicationContext, MainActivity::class.java)
+                                val intent = Intent(this, MainActivity::class.java)
                                 intent.putExtra("direct", "true")
                                 startActivity(intent)
 //                                Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
@@ -220,14 +243,17 @@ class form_pemesanan : AppCompatActivity(), TransactionFinishedCallback {
             StorageForm.get()
                 .addOnSuccessListener { documents ->
                     for (document in documents) {
+                        //mengambil data cart
                         val data = document.data
+                        //membuat pesanan sama seperti database cart
                         listPesanan.document().set(data)
+                        //mengambil nilai total
                         var total = binding.tvTotalForm.text.toString()
                         val totalHarga = hashMapOf(
                             "total" to "$total",
                         )
                         listPesanan.document("total").set(totalHarga)
-                        //menghapus cart
+                        //Jika telah selesai maka database cart dihapus
                         StorageForm.document(document.id).delete()
                     }
                 }
@@ -237,14 +263,19 @@ class form_pemesanan : AppCompatActivity(), TransactionFinishedCallback {
         }
     }
 
+    //MIDTRANS
+
+    //Fungsi apabila transaksi finished atau tidak
     override fun onTransactionFinished(result: TransactionResult?) {
+        //jika status sukses
         if(result?.response?.transactionStatus == STATUS_SUCCESS){
-            //memindahkan pesanan ke riwayat dan menghapus cart
+            //memindahkan cart ke pesanan dan menghapus cart dalam database
             val orderID = result.response?.transactionId
             simpandata(orderID.toString())
             Toast.makeText(this, "Pesanan Telah Dibuat", Toast.LENGTH_LONG).show()
         }
 
+        //jika status pending
         if(result?.response?.transactionStatus == TransactionResult.STATUS_PENDING){
             val intent = Intent(applicationContext, Cart::class.java)
             startActivity(intent)

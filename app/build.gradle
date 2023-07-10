@@ -41,30 +41,49 @@ android {
 
 dependencies {
 
+    //menyediakan fungsi ekstensi Kotlin untuk komponen inti Android seperti SharedPreferences, Permissions, dan lainnya.
     implementation 'androidx.core:core-ktx:1.7.0'
+    //menyediakan kompatibilitas dengan fitur-fitur terbaru di perangkat dengan versi Android
     implementation 'androidx.appcompat:appcompat:1.6.0'
+    //menyediakan komponen UI yang mengikuti prinsip-prinsip desain Material.
     implementation 'com.google.android.material:material:1.8.0'
+    //digunakan untuk membuat tata letak (layout) yang kompleks dan fleksibel.
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    // untuk mengintegrasikan sistem otentikasi pengguna ke dalam aplikasi
     implementation 'com.google.firebase:firebase-auth:21.2.0'
     implementation 'com.google.firebase:firebase-auth-ktx:21.2.0'
+    //untuk mengakses dan menyimpan data dalam database Firebase Firestore
     implementation 'com.google.firebase:firebase-firestore:24.4.5'
     implementation 'com.google.firebase:firebase-firestore-ktx:24.4.5'
+    //untuk mengakses dan menyimpan data dalam database Realtime
     implementation 'com.google.firebase:firebase-database-ktx:20.1.0'
     implementation "com.google.firebase:firebase-database:16.0.4"
+    //untuk untuk mengunggah dan mengunduh file ke penyimpanan Firebase Storage.
     implementation 'com.google.firebase:firebase-storage:20.1.0'
     implementation 'com.google.firebase:firebase-storage-ktx:20.1.0'
+
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+    //untuk memuat dan menampilkan gambar secara efisien dalam aplikasi Android.
     implementation 'com.github.bumptech.glide:glide:4.14.2'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.14.2'
+
+    //komponen badge (tanda pengenal) untuk notifikasi.
     implementation 'com.nex3z:notification-badge:1.0.4'
     implementation 'org.greenrobot:eventbus:3.2.0'
+
+    //menyediakan ImageView yang berbentuk lingkaran untuk menampilkan gambar melingkar.
     implementation 'de.hdodenhof:circleimageview:2.1.0'
+
+    //untuk memotong dan mengedit gambar dalam aplikasi menggunakan library UCrop.
     implementation 'com.github.yalantis:ucrop:2.2.8-native'
 
-    // payment gateway midtrans
+    // payment gateway midtrans SANDBOX
     implementation 'com.midtrans:uikit:2.0.0-SANDBOX'
+
+    // payment gateway midtrans PRODUCTION
 //    implementation 'com.midtrans:uikit:2.0.0'
 //    implementation 'com.midtrans:uikit:1.34.0'
 
